@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.3">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>700</x>
+      <y>450</y>
+      <w>210</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>question
+--
+quest_id : INT
+quest_naire_id : INT
+quest_text : TEXT
+quest_required : BOOL
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>370</x>
+      <y>230</y>
+      <w>210</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>user
+--
+user_id : INT
+user_name : VARCHAR2(255)
+user_email : VARCHAR2(255)
+user_password : BINARY(32)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>700</x>
+      <y>230</y>
+      <w>210</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>questionnaire
+--
+naire_id : INT
+naire_user_id : INT
+naire_title : VARCHAR2(255)
+naire_description : TEXT
+naire_theme_id : INT
+naire_created : TIMESTAMP
+naire_updated : TIMESTAMP
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>370</x>
+      <y>450</y>
+      <w>210</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>answer
+--
+answer_id : INT
+answer_quest_id : INT
+answer_text : TEXT
+answer_time : TIMESTAMP
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>550</x>
+      <y>260</y>
+      <w>170</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>150;30;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>780</x>
+      <y>350</y>
+      <w>50</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>30;100;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>550</x>
+      <y>490</y>
+      <w>170</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>30;30;150;30</additional_attributes>
+  </element>
+</diagram>
