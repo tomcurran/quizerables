@@ -21,7 +21,23 @@ INSERT INTO questionnaire (naire_user_id, naire_title, naire_description, naire_
 -- question table
 INSERT INTO question (quest_naire_id, quest_text, quest_required)
     VALUES (1, 'What colour is the sky?', TRUE);
+INSERT INTO question (quest_naire_id, quest_text, quest_required)
+    VALUES (2, 'What colour is the sky?', TRUE);
+INSERT INTO question (quest_naire_id, quest_text, quest_required)
+    VALUES (2, 'What colour is the sea?', TRUE);
+INSERT INTO question (quest_naire_id, quest_text, quest_required)
+    VALUES (3, 'What colour is the ground?', TRUE);
 
 -- answer table
 INSERT INTO answer (answer_quest_id, answer_text)
     VALUES (1, 'Blue');
+INSERT INTO answer (answer_quest_id, answer_text)
+    VALUES (1, 'White');
+INSERT INTO answer (answer_quest_id, answer_text)
+    VALUES (2, 'Aqua');
+INSERT INTO answer (answer_quest_id, answer_text)
+    VALUES (3, 'Turquoise');
+INSERT INTO answer (answer_quest_id, answer_text)
+    VALUES (4, 'Green');
+INSERT INTO answer (answer_quest_id, answer_text)
+    VALUES (4, 'Brown');
