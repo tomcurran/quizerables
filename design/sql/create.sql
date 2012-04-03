@@ -12,7 +12,7 @@ CREATE TABLE user (
 
 CREATE TABLE questionnaire (
     naire_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    naire_user_id INT NOT NULL,
+    naire_user_id INT NOT NULL REFERENCES user(user_id),
     naire_title VARCHAR(255) NOT NULL,
     naire_description TEXT,
     naire_theme_id INT NOT NULL,
@@ -22,14 +22,14 @@ CREATE TABLE questionnaire (
 
 CREATE TABLE question (
     quest_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    quest_naire_id INT NOT NULL,
+    quest_naire_id INT NOT NULL REFERENCES questionnaire(naire_id),
     quest_text TEXT NOT NULL,
     quest_required BOOL NOT NULL
 );
 
 CREATE TABLE answer (
     answer_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    answer_quest_id INT NOT NULL,
+    answer_quest_id INT NOT NULL REFERENCES question(quest_id),
     answer_text TEXT,
     answer_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
