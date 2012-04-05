@@ -4,10 +4,12 @@
 	<title>{{ questionnaire.naire_title }} - Les Quizerables</title>
 </head>
 <body>
+{% if questionnaire|length > 0 %}
 	<header>
 		<h1>{{ questionnaire.naire_title }}</h1>
+		<p>{{ questionnaire.naire_description }}</p>
 	</header>
-	<p>{{ questionnaire.naire_description }}</p>
+{% if questions|length > 0 %}
 	<form action='answer.php' method='POST'>
 {% for question in questions %}
 		<h3>{{ question.quest_text }}</h3>
@@ -16,6 +18,16 @@
 		<br />
 		<input type='submit' name='Sumbit' />
 	</form>
+{% else %}
+	<p>No questions in this questionnaire</p>
+{% endif %}
+{% else %}
+	<header>
+		<h1>No questionnaire found</h1>
+		<p>404 no questionnaire found. But here's a picture of an orange ...</p>
+		<p><img src="images/orange.jpg" alt="orange" /></p>
+	</header>
+{% endif %}
 	<footer>
 		<strong>Les Quizerables (C) 2012</strong>
 	</footer>
