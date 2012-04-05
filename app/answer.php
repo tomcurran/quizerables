@@ -13,7 +13,7 @@ $db = new DB();
 
 foreach (array_keys($_POST) as $key) {
 	if (is_int($key) && isset($_POST[$key])) {
-		$db->answerQuestion($key, $_POST[$key]);
+		if (!$db->answerQuestion($key, $_POST[$key])) { echo 'fail';}
 	}
 }
 

@@ -15,7 +15,7 @@ class DB {
 	public function answerQuestion($questID, $questText) {
 		$escapedID = $this->sql->real_escape_string($questID);
 		$escapedText = $this->sql->real_escape_string($questText);
-		$query = "INSERT INTO answer ('answer_quest_id', 'answer_text') VALUES ({$escapedID}, '{$escapedText}')";
+		$query = "INSERT INTO answer (answer_quest_id, answer_text) VALUES ({$escapedID}, '{$escapedText}')";
 		return $this->sql->query($query);
 	}
 	
