@@ -8,7 +8,7 @@ $loader_paths = array(
 );
 
 function loader($name) {
-	global $loader_paths;
+    global $loader_paths;
 
     $name = preg_replace('/Twig_/', '', $name, 1);
     if (class_exists($name, false)) return;
@@ -28,7 +28,7 @@ spl_autoload_register('loader');
 Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem('templates');
 $twig = new Twig_Environment($loader, array(
-  'cache' => 'templates/cache',
+    'cache' => 'templates/cache',
 ));
 $twig->setCache(false);
 
