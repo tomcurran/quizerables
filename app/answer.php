@@ -8,6 +8,6 @@ foreach (array_keys($_POST) as $key) {
 	}
 }
 
-echo $twig->render("answer.html");
+echo $twig->render('answer.html');
 
 ?>
