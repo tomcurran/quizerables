@@ -2,20 +2,30 @@
 <html>
 <head>
 	<title>{% block title %}{% endblock %} - Les Quizerables</title>
-	<script src="scripts/jquery-1.7.2.min.js" />
+	<script src="scripts/jquery-1.7.2.min.js" type="text/javascript"></script>
 </head>
 <body>
 	<header>
-		<h1>Welcome to Les Quizerables</h1>
+		<div id="logo"><h1>Les Quizerables</h1></div>
+{% if loggedin %}
+		<div>you're logged in BITCHZZ</div>
+		<a href="logout.php">Log out</a>
+{% else %}
+		<form id="loginForm" method="POST" action="index.php">
+			Username:<input type="text" name="username"/>
+			Password:<input type="password" name="password" />
+			<input type="submit" name="login"value="Log in" />
+		</form>
+{% endif %}
 	</header>
 	<nav>
-		<!-- Navigation links go here -->
+{% block nav %}{% endblock %}
 	</nav>
-	<article>
-		<!-- main part of page goes here -->
-	</article>
+	<div>
+{% block main %}{% endblock %}
+	</div>
 	<footer>
-		<p><strong>Les Quizerable (C) 2012</stong></p>
+		<p><strong>Les Quizerable (C) 2012</strong></p>
 	</footer>
 </body>
 </html>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title 'Home' %}
+
+{% block main %}
+{% if loggedin %}
+
+
+{% else %}
+	<div id="info">
+	<h2>Les Quizerables the best way to make questionnaires on the interwebs.</h2>
+	<img src="images/orange.jpg" /><br />
+	<h3>Statistics</h3>
+	Registered users: {{ statistics.users }}
+	Total questionnaires: {{ statistics.naires }}<br />
+	Total questions: {{ statistics.quests }}<br />
+	Total answers: {{ statistics.answers }}
+	</div>
+	<div id"register">
+		<h3>Sign Up</h3>
+		<form id="registerForm" method="POST" action="index.php">
+			Username:<input type="text" name="username"/><br />
+			E-mail:<input type="text" name="password" /><br />
+			Password:<input type="password" name="password" /><br />
+			<input type="submit" name="signup"value="Sign Up" />
+		</form>
+	</div>
+{% endif %}
+
+{% endblock %}
