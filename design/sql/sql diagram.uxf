@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="11.3">
+<diagram program="umlet" version="11.4">
   <zoom_level>10</zoom_level>
   <element>
     <type>com.umlet.element.Class</type>
@@ -12,7 +12,7 @@
     <panel_attributes>question
 --
 quest_id : INT
-quest_naire_id : INT
+quest_quiz_id : INT
 quest_text : TEXT
 quest_required : BOOL
 
@@ -33,7 +33,7 @@ quest_required : BOOL
 user_id : INT
 user_name : VARCHAR2(255)
 user_email : VARCHAR2(255)
-user_password : BINARY(32)
+user_password : VARCHAR(255)
 
 </panel_attributes>
     <additional_attributes/>
@@ -46,15 +46,15 @@ user_password : BINARY(32)
       <w>210</w>
       <h>150</h>
     </coordinates>
-    <panel_attributes>questionnaire
+    <panel_attributes>quiz
 --
-naire_id : INT
-naire_user_id : INT
-naire_title : VARCHAR2(255)
-naire_description : TEXT
-naire_theme_id : INT
-naire_created : TIMESTAMP
-naire_updated : TIMESTAMP
+quiz_id : INT
+quiz_user_id : INT
+quiz_title : VARCHAR2(255)
+quiz_description : TEXT
+quiz_theme_id : INT
+quiz_created : TIMESTAMP
+quiz_updated : TIMESTAMP
 
 
 </panel_attributes>
