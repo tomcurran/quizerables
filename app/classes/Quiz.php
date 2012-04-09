@@ -5,6 +5,7 @@ class Quiz {
 	public $id;
 	public $title;
 	public $description;
+	public $themeid;
 	
 	public function __construct($id) {
 		global $lq;
@@ -17,6 +18,7 @@ class Quiz {
 		$this->id = $quizdata['quiz_id'];
 		$this->title = $quizdata['quiz_title'];
 		$this->description = $quizdata['quiz_description'];
+		$this->themeid = $quizdata['quiz_theme_id'];
 	}
 	
 	public function delete() {
@@ -35,11 +37,11 @@ class Quiz {
 	}
 	
 	public function getQuestions() {
-		// TODO
+		return Question::getQuestionsByQuiz($this->id);
 	}
 	
 	public function save() {
-		$sql = 'UPDATE quiz SET quiz_title = :title, quiz_description = :descriptiomn WHERE quiz_id = :id';
+		$sql = 'UPDATE quiz SET quiz_title = :title, quiz_description = :description WHERE quiz_id = :id';
 		$sth = $lq->pdo->prepare($sql);
 		$sth->bindParam(':title', $this->title, PDO::PARAM_STR);
 		$sth->bindParam(':description', $this->description, PDO::PARAM_STR);
