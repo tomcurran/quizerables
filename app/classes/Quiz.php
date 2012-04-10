@@ -3,7 +3,7 @@
 class Quiz extends ModelPDO {
 
     public static function getAllByUser($user) {
-        return self::getAllBy('user_id', $user->id);
+        return self::getBy(array('user_id' => $user->id));
     }
 
 

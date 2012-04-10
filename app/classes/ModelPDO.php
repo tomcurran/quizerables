@@ -12,7 +12,7 @@ abstract class ModelPDO {
 				'vagangst'
 			);
 			
-			//self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+			self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		}
 		return self::$pdo;
 	}
@@ -33,65 +33,48 @@ abstract class ModelPDO {
 		return ":{$field}";
 	}
 
+    protected static function getEqualBind($field) {
+		$fieldName = self::getFieldName($field);
+		$bindName = self::getBindName($field);
+        return "{$fieldName} = {$bindName}";
+    }
+
 	protected static function getPropertyName($prop) {
 		return substr($prop, strlen(self::getModelName()) + 1);
 	}
 
 	public static function get($id) {
-		return self::getBy('id', $id);
-	}
-
-	protected static function getBy($field, $value) {
-		$tableName = self::getTableName();
-		$fieldName = self::getFieldName($field);
-		$bindName = self::getBindName($field);
-		$q = "SELECT * FROM {$tableName} ";
-		$q .= "WHERE {$fieldName} = {$bindName}";
-		$sth = self::getPDO()->prepare($q);
-		$sth->bindParam($bindName, $value);
-		$sth->execute();
-		$data = $sth->fetch(PDO::FETCH_ASSOC);
-		if ($data) {
-			$modelName = self::getModelName();
-			return new $modelName($data);
-		}
-		return null;
+		return self::getBy(array('id' => $id));
 	}
 
 	public static function getAll() {
-		$tableName = self::getTableName();
-		$q = "SELECT * FROM {$tableName} ";
-		$sth = self::getPDO()->prepare($q);
-		$sth->execute();
-		$data = $sth->fetchAll(PDO::FETCH_ASSOC);
-		if ($data) {
-			$models = array();
-			foreach ($data as $d) {
-				$modelName = self::getModelName();
-				$models[] = new $modelName($d);
-			}
-			return $models;
-		}
-		return null;
+		return self::getBy();
 	}
 
-	protected static function getAllBy($field, $value) {
-		$tableName = self::getTableName();
-		$fieldName = self::getFieldName($field);
-		$bindName = self::getBindName($field);
-		$q = "SELECT * FROM {$tableName} ";
-		$q .= "WHERE {$fieldName} = {$bindName}";
+	protected static function getBy(array $where = null) {
+		$table = self::getTableName();
+		$q = "SELECT * FROM {$table}";
+		if ($where) {
+		    $q .= ' WHERE';
+		    foreach ($where as $field => $value) {
+                $q .= ' ' . self::getEqualBind($field);
+            }
+        }
 		$sth = self::getPDO()->prepare($q);
-		$sth->bindValue($bindName, $value);
+		if ($where) {
+		    foreach ($where as $field => $value) {
+                $sth->bindParam(self::getBindName($field), $value);
+            }
+        }
 		$sth->execute();
 		$data = $sth->fetchAll(PDO::FETCH_ASSOC);
 		if ($data) {
-			$models = array();
-			foreach ($data as $d) {
-				$modelName = self::getModelName();
-				$models[] = new $modelName($d);
-			}
-			return $models;
+	        $models = array();
+		    foreach ($data as $d) {
+			    $modelName = self::getModelName();
+			    $models[] = new $modelName($d);
+		    }
+		    return count($models) == 1 ? $models[0] : $models;
 		}
 		return null;
 	}
@@ -113,24 +96,17 @@ abstract class ModelPDO {
 	}
 
 	public function save() {
-		$tableName = self::getTableName();
+		$table = self::getTableName();
 		if ($this->fields['id']['value'] != null) {
 			foreach ($this->fields as $field => $f) {
-				if ($field != 'id' && $f['value'] != null) {
-					$fieldName = self::getFieldName($field);
-					$bindName = self::getBindName($field);
-					$fields[] = "{$fieldName} = {$bindName}";
+				if ($field != 'id' && isset($f['value'])) {
+					$sets[] = self::getEqualBind($field);
 				}
 			}
-			$fieldName = self::getFieldName('id');
-			$bindName = self::getBindName('id');
-			$set = implode(', ', $fields);
-			$q = "UPDATE {$tableName} ";
-			$q .= "SET {$set} ";
-			$q .= "WHERE {$fieldName} = {$bindName}";
+			$set = implode(', ', $sets);
+			$where = self::getEqualBind('id');
+			$q = "UPDATE {$table} SET {$set} WHERE {$where}";
 		} else {
-			$cols = array();
-			$binds = array();
 			foreach ($this->fields as $field => $f) {
 				if ($field != 'id' && $f['value'] != null) {
 					$cols[] = self::getFieldName($field);
@@ -139,33 +115,28 @@ abstract class ModelPDO {
 			}
 			$columns = implode(', ', $cols);
 			$bindings = implode(', ', $binds);
-			$q = "INSERT INTO {$tableName} ";
-			$q .= "({$columns}) VALUES ({$bindings})";
+			$q = "INSERT INTO {$table} ({$columns}) VALUES ({$bindings})";
 		}
 		$sth = ModelPDO::getPDO()->prepare($q);
 		foreach ($this->fields as $field => $f) {
 			$value = $f['value'];
 			if ($f['value'] != null) {
-				//echo self::getBindName($field) . " => {$f['value']}\n";
 				$sth->bindValue(self::getBindName($field), $f['value'], $f['type']); 
 			}
 		}
-		//echo "{$sth->queryString}\n";
 		return $sth->execute();
 	}
 
 	public function delete() {
 		$id = $this->fields['id']['value'];
-		if ($id == null) {
+		if (!isset($id)) {
 			return;
 		}
-		$tableName = self::getTableName();
-		$fieldName = self::getFieldName('id');
-		$bindName = self::getBindName('id');
-		$q = "DELETE FROM {$tableName} ";
-		$q .= "WHERE {$fieldName} = {$bindName}";
+		$table = self::getTableName();
+		$where = self::getEqualBind('id');
+		$q = "DELETE FROM {$table} WHERE {$where}";
 		$sth = ModelPDO::getPDO()->prepare($q);
-		$sth->bindValue($bindName, $id, $this->fields['id']['type']);
+		$sth->bindValue(self::bindName('id'), $id, $this->fields['id']['type']);
 		$result = $sth->execute();
 		if ($result) {
 			foreach ($this->fields as $field => $f) {

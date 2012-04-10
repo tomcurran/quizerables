@@ -5,7 +5,7 @@ class User extends ModelPDO {
 	public static function fromSession() {
 		if (isset($_SESSION['user_id']) && isset($_SESSION['fingerprint'])) {
 			if ($_SESSION['fingerprint'] == md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'])) {
-				$user = User::get($_SESSION['user_id']);
+				$user = self::get($_SESSION['user_id']);
 			}
 			return $user ? $user : false;
 		}
@@ -13,7 +13,7 @@ class User extends ModelPDO {
 	}
 
 	public static function login($name, $password) {
-		$user = User::getBy('name', $name);
+		$user = self::getBy(array('name' => $name));
 		if ($user && $user->validatePassword($password)) {
 			session_regenerate_id();
 			$_SESSION['fingerprint'] = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);

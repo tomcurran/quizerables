@@ -3,7 +3,7 @@
 class Question extends ModelPDO {
 
     public static function getAllByQuiz($quiz) {
-        return self::getAllBy('quiz_id', $quiz->id);
+        return self::getBy(array('quiz_id' => $quiz->id));
     }
 
 
