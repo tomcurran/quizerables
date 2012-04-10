@@ -4,9 +4,9 @@ class User extends ModelPDO {
 
 	public static function fromSession() {
 		if (isset($_SESSION['user_id']) && isset($_SESSION['fingerprint'])) {
-		    if ($_SESSION['fingerprint'] == md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'])) {
-    			$user = User::get($_SESSION['user_id']);
-    		}
+			if ($_SESSION['fingerprint'] == md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'])) {
+				$user = User::get($_SESSION['user_id']);
+			}
 			return $user ? $user : false;
 		}
 		return false;
@@ -15,8 +15,8 @@ class User extends ModelPDO {
 	public static function login($name, $password) {
 		$user = User::getBy('name', $name);
 		if ($user && $user->validatePassword($password)) {
-    		session_regenerate_id();
-    		$_SESSION['fingerprint'] = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+			session_regenerate_id();
+			$_SESSION['fingerprint'] = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
 			$_SESSION['user_id'] = $user->id;
 			return $user;
 		}
@@ -39,12 +39,12 @@ class User extends ModelPDO {
 		return $user->save();
 	}
 
-    // crackstation.net/hashing-security.html
-    public static function hashPassword($password) {
-	    $salt = bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
-	    $hash = hash('sha256', $salt . $password);
-	    return $salt . $hash;
-    }
+	// crackstation.net/hashing-security.html
+	public static function hashPassword($password) {
+		$salt = bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
+		$hash = hash('sha256', $salt . $password);
+		return $salt . $hash;
+	}
 
 
 	public function __construct($data = false) {
@@ -60,12 +60,12 @@ class User extends ModelPDO {
 		return Quiz::getAllByUser($this);
 	}
 
-    public function validatePassword($password) {
-	    $salt = substr($this->password, 0, 64);
-	    $validHash = substr($this->password, 64, 64);
-	    $testHash = hash('sha256', $salt . $password);
-	    return $testHash === $validHash;
-    }
+	public function validatePassword($password) {
+		$salt = substr($this->password, 0, 64);
+		$validHash = substr($this->password, 64, 64);
+		$testHash = hash('sha256', $salt . $password);
+		return $testHash === $validHash;
+	}
 
 }
 
