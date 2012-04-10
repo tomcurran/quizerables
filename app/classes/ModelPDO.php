@@ -33,11 +33,11 @@ abstract class ModelPDO {
 		return ":{$field}";
 	}
 
-    protected static function getEqualBind($field) {
+	protected static function getEqualBind($field) {
 		$fieldName = self::getFieldName($field);
 		$bindName = self::getBindName($field);
-        return "{$fieldName} = {$bindName}";
-    }
+		return "{$fieldName} = {$bindName}";
+	}
 
 	protected static function getPropertyName($prop) {
 		return substr($prop, strlen(self::getModelName()) + 1);
@@ -55,26 +55,26 @@ abstract class ModelPDO {
 		$table = self::getTableName();
 		$q = "SELECT * FROM {$table}";
 		if ($where) {
-		    $q .= ' WHERE';
-		    foreach ($where as $field => $value) {
-                $q .= ' ' . self::getEqualBind($field);
-            }
-        }
+			$q .= ' WHERE';
+			foreach ($where as $field => $value) {
+				$q .= ' ' . self::getEqualBind($field);
+			}
+		}
 		$sth = self::getPDO()->prepare($q);
 		if ($where) {
-		    foreach ($where as $field => $value) {
-                $sth->bindParam(self::getBindName($field), $value);
-            }
-        }
+			foreach ($where as $field => $value) {
+				$sth->bindParam(self::getBindName($field), $value);
+			}
+		}
 		$sth->execute();
 		$data = $sth->fetchAll(PDO::FETCH_ASSOC);
 		if ($data) {
-	        $models = array();
-		    foreach ($data as $d) {
-			    $modelName = self::getModelName();
-			    $models[] = new $modelName($d);
-		    }
-		    return count($models) == 1 ? $models[0] : $models;
+			$models = array();
+			foreach ($data as $d) {
+				$modelName = self::getModelName();
+				$models[] = new $modelName($d);
+			}
+			return count($models) == 1 ? $models[0] : $models;
 		}
 		return null;
 	}
