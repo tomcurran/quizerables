@@ -1,59 +1,24 @@
 <?php
 
-class User {
+class User extends ModelPDO {
 
-	public $id;
-	public $name;
-	public $email;
-
-	public function __construct($id) {
-		global $lq;
-		$sql = 'SELECT * FROM user WHERE user_id = :id';
-		$sth = $lq->pdo->prepare($sql);
-		$sth->bindParam(':id', $id, PDO::PARAM_INT);
-		$sth->execute();
-		$userdata = $sth->fetch(PDO::FETCH_ASSOC);
-		
-		$this->id = $userdata['user_id'];
-		$this->name = $userdata['user_name'];
-		$this->email = $userdata['user_email'];
-	}
-	
-	public function getQuizzes() {
-		return Quiz::getQuizzesByUser($this->id);
-	}
-	
-	public function save() {
-		$sql = 'UPDATE user SET user_name = :name, user_email = :email WHERE user_id = :id';
-		$sth = $lq->pdo->prepare($sql);
-		$sth->bindParam(':id', $this->id, PDO::PARAM_INT);
-		$sth->bindParam(':name', $this->name, PDO::PARAM_STR);
-		$sth->bindParam(':email', $this->email, PDO::PARAM_STR);
-		return $sth->execute();
-	}
-	
 	public static function fromSession() {
-		$id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : false;
-		return $id ? new User($id) : false ;
-		
-	}
-	
-	public static function login($name, $password) {
-		global $lq;
-		$sql = 'SELECT * FROM user WHERE user_name = :name AND user_password = :password';
-		$sth = $lq->pdo->prepare($sql);
-		$sth->bindParam(':name', $name, PDO::PARAM_STR);
-		$sth->bindParam(':password', $password);//, PDO::PARAM_STR);
-		$sth->execute();
-		if($userdata = $sth->fetch(PDO::FETCH_ASSOC)) {
-			$id = $userdata['user_id'];
-			$_SESSION['user_id'] = $id;
-			return new User($id);
-		} else {
-			return false;
+		if (isset($_SESSION['user_id'])) {
+			$user = User::get($_SESSION['user_id']);
+			return $user ? $user : false;
 		}
+		return false;
 	}
-	
+
+	public static function login($name, $password) {
+		$user = User::getBy('name', $name);
+		if ($user && $user->password == $password) {
+			$_SESSION['user_id'] = $user->id;
+			return $user;
+		}
+		return false;
+	}
+
 	public static function logout() {
 		session_unset();
 		session_destroy();
@@ -63,15 +28,27 @@ class User {
 	}
 
 	public static function signup($name, $email, $password) {
-		global $lq;
-		$sql = 'INSERT INTO user (user_name, user_email, user_password) VALUES (:name, :email, :password)';
-		$sth = $lq->pdo->prepare($sql);
-		$sth->bindParam(':name', $name, PDO::PARAM_STR);
-		$sth->bindParam(':email', $email, PDO::PARAM_STR);
-		$sth->bindParam(':password', $password, PDO::PARAM_STR);
-		return $sth->execute();
+		$user = new User();
+		$user->name = $name;
+		$user->email = $email;
+		$user->password = $password;
+		return $user->save();
 	}
-		
+
+
+	public function __construct($data = false) {
+		$schema = array(
+			'name'	 => PDO::PARAM_STR,
+			'email'	=> PDO::PARAM_STR,
+			'password' => PDO::PARAM_STR
+		);
+		parent::__construct($schema, $data);
+	}
+
+	public function getQuizs() {
+		return Quiz::getAllByUser($this);
+	}
+
 }
 
 ?>

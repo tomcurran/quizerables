@@ -21,7 +21,7 @@ if (!$lq->user) {
 }
 
 if ($lq->user) {
-	$args['quizzes'] = $lq->user->getQuizzes();
+	$args['quizzes'] = $lq->user->getQuizs();
 	$args['loggedin'] = true;
 } else {
 	$args['loggedin'] = false;

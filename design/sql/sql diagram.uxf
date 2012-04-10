@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="11.4">
+<diagram program="umlet" version="11.3">
   <zoom_level>10</zoom_level>
   <element>
     <type>com.umlet.element.Class</type>
@@ -9,12 +9,12 @@
       <w>210</w>
       <h>130</h>
     </coordinates>
-    <panel_attributes>question
+    <panel_attributes>questions
 --
-quest_id : INT
-quest_quiz_id : INT
-quest_text : TEXT
-quest_required : BOOL
+question_id : INT
+question_quiz_id : INT
+question_text : TEXT
+question_required : BOOL
 
 
 </panel_attributes>
@@ -28,7 +28,7 @@ quest_required : BOOL
       <w>210</w>
       <h>130</h>
     </coordinates>
-    <panel_attributes>user
+    <panel_attributes>users
 --
 user_id : INT
 user_name : VARCHAR2(255)
@@ -46,7 +46,7 @@ user_password : VARCHAR(255)
       <w>210</w>
       <h>150</h>
     </coordinates>
-    <panel_attributes>quiz
+    <panel_attributes>quizs
 --
 quiz_id : INT
 quiz_user_id : INT
@@ -68,10 +68,10 @@ quiz_updated : TIMESTAMP
       <w>210</w>
       <h>130</h>
     </coordinates>
-    <panel_attributes>answer
+    <panel_attributes>answers
 --
 answer_id : INT
-answer_quest_id : INT
+answer_question_id : INT
 answer_text : TEXT
 answer_time : TIMESTAMP
 </panel_attributes>
