@@ -3,14 +3,14 @@
 {% block title 'Home' %}
 
 {% block main %}
-		<div id="quizzes">
+		<div id="quizs">
 			<h3>My Quizzes</h3>
-{% if quizzes is empty %}
-			<strong>Y u no create quizzes?!</strong><br />
+{% if quizs is empty %}
+			<strong>Y u no create quizzess?!</strong><br />
 			<img src="images/pearcat.jpg" />
 {% else %}
 			<ul>
-{% for quiz in quizzes %}
+{% for quiz in quizs %}
 				<li>{{ quiz.title }}
 					<a href="edit.php?id={{ quiz.id }}" />Edit</a>
 					<a href="delete.php?id={{ quiz.id }}" />Delete</a>

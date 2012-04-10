@@ -10,6 +10,7 @@ class LQ {
 		$loader = new Twig_Loader_Filesystem('templates');
 		$this->twig = new Twig_Environment($loader, array(
 			'cache' => 'templates/cache',
+			'strict_variables' => false
 		));
 		$this->twig->setCache(false);
 	}

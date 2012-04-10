@@ -12,7 +12,7 @@ abstract class ModelPDO {
 				'vagangst'
 			);
 			
-			self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+			//self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		}
 		return self::$pdo;
 	}
@@ -129,6 +129,8 @@ abstract class ModelPDO {
 			$q .= "SET {$set} ";
 			$q .= "WHERE {$fieldName} = {$bindName}";
 		} else {
+			$cols = array();
+			$binds = array();
 			foreach ($this->fields as $field => $f) {
 				if ($field != 'id' && $f['value'] != null) {
 					$cols[] = self::getFieldName($field);
@@ -161,6 +163,18 @@ abstract class ModelPDO {
 	public function __get($name) {
 		if (array_key_exists($name, $this->fields)) {
 			return $this->fields[$name]['value'];
+		}
+	}
+
+	public function __isset($name) {
+		if (array_key_exists($name, $this->fields)) {
+			return isset($this->fields[$name]['value']);
+		}
+	}
+
+	public function __unset($name) {
+		if (array_key_exists($name, $this->fields)) {
+			unset($this->fields[$name]['value']);
 		}
 	}
 

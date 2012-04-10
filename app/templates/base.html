@@ -7,8 +7,8 @@
 <body>
 	<header>
 		<div id="logo"><h1>Les Quizerables</h1></div>
-{% if loggedin %}
-		<div>you're logged in BITCHZZ</div>
+{% if user %}
+		<div>you're logged in {{ user.name }}</div>
 		<a href="logout.php">Log out</a>
 {% else %}
 		<form id="loginForm" method="POST" action="login.php">
