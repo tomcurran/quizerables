@@ -7,7 +7,7 @@ CREATE TABLE users (
     user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_name VARCHAR(255) NOT NULL UNIQUE,
     user_email VARCHAR(255) NOT NULL,
-    user_password VARCHAR(255) NOT NULL
+    user_password VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE quizs (
@@ -34,6 +34,6 @@ CREATE TABLE answers (
     answer_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
---We want triggers!!
---CREATE TRIGGER quizs_before_update BEFORE UPDATE ON quizs
+-- We want triggers!!
+-- CREATE TRIGGER quizs_before_update BEFORE UPDATE ON quizs
 --	FOR EACH ROW SET NEW.quiz_updated = CURRENT_TIMESTAMP;
