@@ -117,7 +117,7 @@ abstract class ModelPDO {
 		if ($this->fields['id']['value'] != null) {
 			foreach ($this->fields as $field => $f) {
 				if ($field != 'id' && $f['value'] != null) {
-					$fieldName = self::getFieldName($field); 
+					$fieldName = self::getFieldName($field);
 					$bindName = self::getBindName($field);
 					$fields[] = "{$fieldName} = {$bindName}";
 				}
@@ -152,6 +152,27 @@ abstract class ModelPDO {
 		}
 		//echo "{$sth->queryString}\n";
 		return $sth->execute();
+	}
+
+	public function delete() {
+		$id = $this->fields['id']['value'];
+		if ($id == null) {
+			return;
+		}
+		$tableName = self::getTableName();
+		$fieldName = self::getFieldName('id');
+		$bindName = self::getBindName('id');
+		$q = "DELETE FROM {$tableName} ";
+		$q .= "WHERE {$fieldName} = {$bindName}";
+		$sth = ModelPDO::getPDO()->prepare($q);
+		$sth->bindValue($bindName, $id, $this->fields['id']['type']);
+		$result = $sth->execute();
+		if ($result) {
+			foreach ($this->fields as $field => $f) {
+				unset($f['value']);
+			}
+		}
+		return $result;
 	}
  
 	public function __set($name, $value) {
