@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title 'Home' %}
+
+{% block main %}
+		<div id="quizzes">
+			<h3>My Quizzes</h3>
+{% if quizzes is empty %}
+			<strong>Y u no create quizzes?!</strong><br />
+			<img src="images/pearcat.jpg" />
+{% else %}
+			<ul>
+{% for quiz in quizzes %}
+				<li>{{ quiz.title }}
+					<a href="edit.php?id={{ quiz.id }}" />Edit</a>
+					<a href="delete.php?id={{ quiz.id }}" />Delete</a>
+					<a href="statistics.php?id={{ quiz.id }}" />Statistics</a>
+				</li>
+{% endfor %}
+			</ul>
+{% endif %}
+		</div>
+{% endblock %}
