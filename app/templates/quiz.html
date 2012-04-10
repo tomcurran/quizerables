@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if questionnaire is not empty %}{{ questionnaire.naire_title }}{% else %}Questionnaire Not Found{% endif %} - Les Quizerables</title>
+    <link rel="stylesheet" href="styles/questionnaire/base.css">
+    {% if questionnaire is not empty and questionnaire.naire_theme_id > 0 %}<link rel="stylesheet" href="styles/questionnaire/{{ questionnaire.naire_theme_id }}.css">{% endif %}
+</head>
+<body>
+{% if questionnaire is not empty %}
+    <header>
+        <h1>{{ questionnaire.naire_title }}</h1>
+        <p>{{ questionnaire.naire_description }}</p>
+    </header>
+{% if questions is not empty %}
+    <form action='answer.php' method='POST'>
+{% for question in questions %}
+        <h3>{{ question.quest_text }}</h3>
+        <input type='text' name='{{ question.quest_id }}' />
+{% endfor %}
+        <br />
+        <input type='submit' name='Sumbit' />
+    </form>
+{% else %}
+    <p>There are no questions to answer in this questionnaire.</p>
+{% endif %}
+{% else %}
+    <header>
+    <h1>Questionnaire Not Found</h1>
+        <p>404 no questionnaire found. But here's a picture of an orange ...</p>
+        <p><img src="images/orange.jpg" alt="orange" /></p>
+    </header>
+{% endif %}
+    <footer>
+        <strong>Les Quizerables (C) 2012</strong>
+    </footer>
+</body>
+</html>

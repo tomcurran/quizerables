@@ -17,7 +17,7 @@ CREATE TABLE quizs (
     quiz_description TEXT,
     quiz_theme_id INT NOT NULL,
     quiz_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    quiz_updated TIMESTAMP
+    quiz_updated TIMESTAMP DEFAULT 0
 );
 
 CREATE TABLE questions (
@@ -33,3 +33,7 @@ CREATE TABLE answers (
     answer_text TEXT,
     answer_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+--We want triggers!!
+--CREATE TRIGGER quizs_before_update BEFORE UPDATE ON quizs
+--	FOR EACH ROW SET NEW.quiz_updated = CURRENT_TIMESTAMP;

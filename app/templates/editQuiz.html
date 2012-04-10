@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title quiz.title %}
+
+{% block main %}
+		<form id="quizForm" method="POST" action="submitQuiz.php">
+			<div id="quizDetails">
+				Title:<input type="text" name="title" /><br />
+				Description:<input type="text" name="description"/><br />
+			</div>
+			<div id="questions">
+{% for question in questions %}
+				<div class="question">
+					Question:<input type="text" name="question{{ question.id %}" /><br />
+					Required:<input type="checkbox" name="required{{ question.id %}" /><br />
+					<input type="button" value="Delete" />
+				</div>
+{% end for %}
+			</div>
+			<input type="button" value="Add new question" />
+			<input type="submit" value="Submit" />
+			<input type="button" value="Preview Quiz" />
+		</form>
