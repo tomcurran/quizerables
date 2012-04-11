@@ -113,7 +113,7 @@ abstract class ModelPDO {
 		$table = self::getTableName();
 		if ($this->fields['id']['value'] != null) {
 			foreach ($this->fields as $field => $f) {
-				if ($field != 'id' && isset($f['value'])) {
+				if ($field != 'id' && $f['value'] != null) {
 					$sets[] = self::getEqualBind($field);
 				}
 			}
@@ -143,7 +143,7 @@ abstract class ModelPDO {
 
 	public function delete() {
 		$id = $this->fields['id']['value'];
-		if (!isset($id)) {
+		if ($id != null) {
 			return;
 		}
 		$table = self::getTableName();
@@ -187,7 +187,7 @@ abstract class ModelPDO {
 	protected function getJSONData() {
 		$fs = array();
 		foreach ($this->fields as $field => $f) {
-			if (isset($f['value'])) {
+			if ($f['value'] != null) {
 				$fs[$field] = $f['value'];
 			}
 		}
