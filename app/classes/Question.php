@@ -20,6 +20,19 @@ class Question extends ModelPDO {
 		return Answer::getAllByQuestion($this);
 	}
 
+	protected function getJSONData($depth = 0) {
+		$data = parent::getJSONData($depth);
+		if (--$depth > 0) {
+			$answers = $this->getAnswers();
+			if ($answers) {
+				foreach ($answers as $answer) {
+					$data['answers'][] = $answer->getJSONData($depth);
+				}
+			}
+		}
+		return $data;
+	}
+
 }
 
 ?>

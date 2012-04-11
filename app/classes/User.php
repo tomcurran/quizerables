@@ -67,6 +67,19 @@ class User extends ModelPDO {
 		return $testHash === $validHash;
 	}
 
+	protected function getJSONData($depth = 0) {
+		$data = parent::getJSONData($depth);
+		if (--$depth > 0) {
+			$quizs = $this->getQuizs();
+			if ($quizs) {
+				foreach ($quizs as $quiz) {
+					$data['quizs'][] = $quiz->getJSONData($depth);
+				}
+			}
+		}
+		return $data;
+	}
+
 }
 
 ?>

@@ -13,10 +13,9 @@ if(isset($_REQUEST['request'])) {
 	}
 	switch ($_REQUEST['request']) {
 		case 'loadQuiz':
-			echo $quiz->encodeJSON();
+			echo $quiz->encodeJSON(1);
 			break;
 		case 'saveQuiz':
-			print_r($_REQUEST);
 			$quiz->title = $_REQUEST['title'];
 			$quiz->description = $_REQUEST['description'];
 			$quiz->save();

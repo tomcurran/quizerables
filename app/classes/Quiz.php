@@ -23,11 +23,15 @@ class Quiz extends ModelPDO {
 		return Question::getAllByQuiz($this);
 	}
 
-	protected function getJSONData() {
-		$data = parent::getJSONData();
-		$questions = $this->getQuestions();
-		foreach ($questions as $question) {
-			$data['questions'][] = $question->getJSONData();
+	protected function getJSONData($depth = 0) {
+		$data = parent::getJSONData($depth);
+		if (--$depth > 0) {
+			$questions = $this->getQuestions();
+			if ($questions) {
+				foreach ($questions as $question) {
+					$data['questions'][] = $question->getJSONData($depth);
+				}
+			}
 		}
 		return $data;
 	}

@@ -138,7 +138,11 @@ abstract class ModelPDO {
 				$sth->bindValue(self::getBindName($field), $f['value'], $f['type']); 
 			}
 		}
-		return $sth->execute();
+		$result = $sth->execute();
+		if ($result && $this->fields['id']['value'] == null) {
+			$this->fields['id']['value'] = self::getPDO()->lastInsertId();
+		}
+		return $result;
 	}
 
 	public function delete() {
@@ -184,7 +188,7 @@ abstract class ModelPDO {
 		}
 	}
 
-	protected function getJSONData() {
+	protected function getJSONData($depth = 0) {
 		$fs = array();
 		foreach ($this->fields as $field => $f) {
 			if ($f['value'] != null) {
@@ -194,8 +198,8 @@ abstract class ModelPDO {
 		return $fs;
 	}
 
-	public function encodeJSON() {
-		return json_encode($this->getJSONData());
+	public function encodeJSON($depth = 0) {
+		return json_encode($this->getJSONData(++$depth));
 	}
 
 }
