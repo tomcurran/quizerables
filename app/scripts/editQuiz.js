@@ -8,10 +8,14 @@ function loadQuiz() {
 		$('#id').val(json.id);
 		$('#title').val(json.title);
 		$('#description').val(json.description);
-		$('#questions').html('');
-		$.each(json.questions, function(i, question) {
+		if (json.questions) {
+			$('#questions').html('');
+			$.each(json.questions, function(i, question) {
 				addQuestion(question);
 			});
+		} else {
+			$('#questions').html('WHY NO QUESTIONS?');
+		}
 		$('#quizDetails').focusout(saveQuizDetails);
 		$('#newQuestion').click(newQuestion);
 	});
