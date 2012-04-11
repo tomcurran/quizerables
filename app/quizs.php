@@ -10,26 +10,30 @@ if(isset($_REQUEST['request'])) {
 	switch ($_REQUEST['request']) {
 			case 'createQuiz':
 				$quiz = new Quiz();
-				$quiz->title = $_REQUEST['title'];
+				$quiz->title = $_REQUEST['quizTitle'];
 				$quiz->user_id = $lq->user->id;
 				$quiz->save();
 				echo $quiz->encodeJSON();
 				break;
 			case 'deleteQuiz':
-				$quiz = Quiz::get($_REQUEST['id']);
+				$quiz = Quiz::get($_REQUEST['quizId']);
 				$quiz->delete();
 				break;
 			case 'loadQuizs':
 				$quizs = Quiz::getAllByUser($lq->user);
-				foreach ($quizs as $quiz) {
-					$qs[] = $quiz->encodeJSON();
+				$qs = array();
+				if($quizs) {
+					foreach ($quizs as $quiz) {
+						$qs[] = $quiz->getJSONData();
+					}
 				}
-				echo json_encode($quizs);
+					
+				echo json_encode($qs);
 				break;
 	}
 } else {
 	$args['user'] = $lq->user;
-	$args['quizs'] = $lq->user->getQuizs();
+	$args['scripts'][] = 'quizs.js';
 	$lq->render('quizs.html', $args);
 }
 

@@ -23,7 +23,7 @@ class Quiz extends ModelPDO {
 		return Question::getAllByQuiz($this);
 	}
 
-	protected function getJSONData($depth = 0) {
+	public function getJSONData($depth = 0) {
 		$data = parent::getJSONData($depth);
 		if (--$depth > 0) {
 			$questions = $this->getQuestions();
