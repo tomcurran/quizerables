@@ -143,7 +143,7 @@ abstract class ModelPDO {
 
 	public function delete() {
 		$id = $this->fields['id']['value'];
-		if ($id != null) {
+		if ($id == null) {
 			return;
 		}
 		$table = self::getTableName();
