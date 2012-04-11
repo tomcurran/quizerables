@@ -1,0 +1,23 @@
+{
+	"id": 1,
+	"title": "First Quiz",
+	"description": "the description of my first quiz",
+	"theme_id": "1",
+	"questions": [
+		{
+			"id": 1,
+			"text": "my first question",
+			"required": "true"
+		},
+		{
+			"id": 2,
+			"text": "my second question",
+			"required": "true"
+		},
+		{
+			"id": 3,
+			"text": "my third question",
+			"required": "false"
+		}
+	]
+}

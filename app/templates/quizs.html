@@ -3,8 +3,15 @@
 {% block title 'Home' %}
 
 {% block main %}
+		<h3>Create Quiz</h3>
+		<div>
+			Title:<input id="title" type="text" name="title" value="{{ quiz.title }}" />
+			<input type="submit" value="Create" id="create" />
+		</div>
+		<h3>My Quizzes</h3>
 		<div id="quizs">
-			<h3>My Quizzes</h3>
+		</div>
+			
 {% if quizs is empty %}
 			<strong>Y u no create quizzess?!</strong><br />
 			<img src="images/pearcat.jpg" />
@@ -12,8 +19,8 @@
 			<ul>
 {% for quiz in quizs %}
 				<li>{{ quiz.title }}
-					<a href="edit.php?id={{ quiz.id }}" />Edit</a>
-					<a href="delete.php?id={{ quiz.id }}" />Delete</a>
+					<a href="editQuiz.php?id={{ quiz.id }}" />Edit</a>
+					<a href="editQuiz.php?id={{ quiz.id }}" />Delete</a>
 					<a href="statistics.php?id={{ quiz.id }}" />Statistics</a>
 				</li>
 {% endfor %}

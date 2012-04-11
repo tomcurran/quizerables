@@ -150,7 +150,7 @@ abstract class ModelPDO {
 		$where = self::getEqualBind('id');
 		$q = "DELETE FROM {$table} WHERE {$where}";
 		$sth = ModelPDO::getPDO()->prepare($q);
-		$sth->bindValue(self::bindName('id'), $id, $this->fields['id']['type']);
+		$sth->bindValue(self::getBindName('id'), $id, $this->fields['id']['type']);
 		$result = $sth->execute();
 		if ($result) {
 			foreach ($this->fields as $field => $f) {

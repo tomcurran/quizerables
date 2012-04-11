@@ -3,9 +3,7 @@
 require_once('init.php');
 
 if ($lq->user) {
-	$args['user'] = $lq->user;
-	$args['quizs'] = $lq->user->getQuizs();
-	$lq->render('quizs.html', $args);
+	header('Location: quizs.php');
 
 } else {
 	$args['user'] = false;

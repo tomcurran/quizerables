@@ -2,7 +2,12 @@
 <html>
 <head>
 	<title>{% block title %}{% endblock %} - Les Quizerables</title>
-	<script src="scripts/jquery-1.7.2.min.js" type="text/javascript"></script>
+{% if scripts is not empty %}
+	<script src="scripts/jquery.js" type="text/javascript"></script>
+{% endif %}
+{% for script in scripts %}
+	<script src="scripts/{{ script }}" type="text/javascript"></script>
+{% endfor %}
 </head>
 <body>
 	<header>
