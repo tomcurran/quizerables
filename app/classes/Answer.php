@@ -3,7 +3,7 @@
 class Answer extends ModelPDO {
 
 	public static function getAllByQuestion($question) {
-		return self::getBy(array('question_id' => $question->id));
+		return self::getAllBy(array('question_id' => $question->id));
 	}
 
 

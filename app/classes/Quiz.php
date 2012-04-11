@@ -3,7 +3,7 @@
 class Quiz extends ModelPDO {
 
 	public static function getAllByUser($user) {
-		return self::getBy(array('user_id' => $user->id));
+		return self::getAllBy(array('user_id' => $user->id));
 	}
 
 
@@ -21,6 +21,15 @@ class Quiz extends ModelPDO {
 
 	public function getQuestions() {
 		return Question::getAllByQuiz($this);
+	}
+
+	protected function getJSONData() {
+		$data = parent::getJSONData();
+		$questions = $this->getQuestions();
+		foreach ($questions as $question) {
+			$data['questions'][] = $question->getJSONData();
+		}
+		return $data;
 	}
 
 }

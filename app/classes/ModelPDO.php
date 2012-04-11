@@ -11,7 +11,6 @@ abstract class ModelPDO {
 				'pkb08164',
 				'vagangst'
 			);
-			
 			self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		}
 		return self::$pdo;
@@ -48,10 +47,34 @@ abstract class ModelPDO {
 	}
 
 	public static function getAll() {
-		return self::getBy();
+		return self::getAllBy();
 	}
 
 	protected static function getBy(array $where = null) {
+		$sth = self::getExecute($where);
+		$data = $sth->fetch(PDO::FETCH_ASSOC);
+		if ($data) {
+			$modelName = self::getModelName();
+			return new $modelName($data);
+		}
+		return null;
+	}
+
+	protected static function getAllBy(array $where = null) {
+		$sth = self::getExecute($where);
+		$data = $sth->fetchAll(PDO::FETCH_ASSOC);
+		if ($data) {
+			$models = array();
+			foreach ($data as $d) {
+				$modelName = self::getModelName();
+				$models[] = new $modelName($d);
+			}
+			return $models;
+		}
+		return null;
+	}
+
+	private static function getExecute(array $where = null) {
 		$table = self::getTableName();
 		$q = "SELECT * FROM {$table}";
 		if ($where) {
@@ -67,16 +90,7 @@ abstract class ModelPDO {
 			}
 		}
 		$sth->execute();
-		$data = $sth->fetchAll(PDO::FETCH_ASSOC);
-		if ($data) {
-			$models = array();
-			foreach ($data as $d) {
-				$modelName = self::getModelName();
-				$models[] = new $modelName($d);
-			}
-			return count($models) == 1 ? $models[0] : $models;
-		}
-		return null;
+		return $sth;
 	}
 
 
@@ -168,6 +182,20 @@ abstract class ModelPDO {
 		if (array_key_exists($name, $this->fields)) {
 			unset($this->fields[$name]['value']);
 		}
+	}
+
+	protected function getJSONData() {
+		$fs = array();
+		foreach ($this->fields as $field => $f) {
+			if (isset($f['value'])) {
+				$fs[$field] = $f['value'];
+			}
+		}
+		return $fs;
+	}
+
+	public function encodeJSON() {
+		return json_encode($this->getJSONData());
 	}
 
 }
