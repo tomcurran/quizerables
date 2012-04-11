@@ -47,7 +47,7 @@ class User extends ModelPDO {
 	}
 
 
-	public function __construct($data = false) {
+	public function __construct(array $data = NULL) {
 		$schema = array(
 			'name'	 => PDO::PARAM_STR,
 			'email'	=> PDO::PARAM_STR,
@@ -67,15 +67,10 @@ class User extends ModelPDO {
 		return $testHash === $validHash;
 	}
 
-	protected function getJSONData($depth = 0) {
-		$data = parent::getJSONData($depth);
-		if (--$depth > 0) {
-			$quizs = $this->getQuizs();
-			if ($quizs) {
-				foreach ($quizs as $quiz) {
-					$data['quizs'][] = $quiz->getJSONData($depth);
-				}
-			}
+	protected function getChildData($depth) {
+		$data = NULL;
+		foreach ($this->getQuizs() as $quiz) {
+			$data['quizs'][] = $quiz->getData($depth);
 		}
 		return $data;
 	}

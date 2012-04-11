@@ -21,11 +21,13 @@ abstract class ModelPDO {
 	}
 
 	protected static function getTableName() {
-		return self::getModelName() . 's';
+		$modelName = self::getModelName();
+		return "{$modelName}s";
 	}
 
 	protected static function getFieldName($field) {
-		return self::getModelName() . '_' . $field;
+		$modelName = self::getModelName();
+		return  "{$modelName}_{$field}";
 	}
 
 	protected static function getBindName($field) {
@@ -42,6 +44,14 @@ abstract class ModelPDO {
 		return substr($prop, strlen(self::getModelName()) + 1);
 	}
 
+	public static function encodeAllJSON(array $models, $depth = 0) {
+		$data = array();
+		foreach ($models as $model) {
+			$data[] = $model->getData($depth);
+		}
+		return json_encode($data);
+	}
+
 	public static function get($id) {
 		return self::getBy(array('id' => $id));
 	}
@@ -50,37 +60,37 @@ abstract class ModelPDO {
 		return self::getAllBy();
 	}
 
-	protected static function getBy(array $where = null) {
+	protected static function getBy(array $where = NULL) {
 		$sth = self::getExecute($where);
 		$data = $sth->fetch(PDO::FETCH_ASSOC);
 		if ($data) {
 			$modelName = self::getModelName();
 			return new $modelName($data);
 		}
-		return null;
+		return NULL;
 	}
 
-	protected static function getAllBy(array $where = null) {
+	protected static function getAllBy(array $where = NULL) {
 		$sth = self::getExecute($where);
 		$data = $sth->fetchAll(PDO::FETCH_ASSOC);
+		$models = array();
 		if ($data) {
-			$models = array();
 			foreach ($data as $d) {
 				$modelName = self::getModelName();
 				$models[] = new $modelName($d);
 			}
-			return $models;
 		}
-		return null;
+		return $models;
 	}
 
-	private static function getExecute(array $where = null) {
+	private static function getExecute(array $where = NULL) {
 		$table = self::getTableName();
 		$q = "SELECT * FROM {$table}";
 		if ($where) {
 			$q .= ' WHERE';
 			foreach ($where as $field => $value) {
-				$q .= ' ' . self::getEqualBind($field);
+				$whereBind = self::getEqualBind($field);
+				$q .= " {$whereBind}";
 			}
 		}
 		$sth = self::getPDO()->prepare($q);
@@ -96,24 +106,20 @@ abstract class ModelPDO {
 
 	private $fields = array();
 
-	public function __construct($schema, $data = false) {
-		$this->fields['id'] = array('value' => null, 'type' => PDO::PARAM_INT);
+	public function __construct(array $schema, array $data = NULL) {
+		$schema = array('id' => PDO::PARAM_INT) + $schema;
 		foreach ($schema as $name => $type) {
-			$this->fields[$name] = array('value' => null, 'type' => $type);
-		}
-		if ($data) {
-			foreach ($data as $column => $value) {
-				$prop = self::getPropertyName($column);
-				$this->fields[$prop]['value'] = $value;
-			}
+			$fieldName = self::getFieldName($name);
+			$value = isset($data[$fieldName]) ? $data[$fieldName] : NULL;
+			$this->fields[$name] = array('value' => $value, 'type' => $type);
 		}
 	}
 
 	public function save() {
 		$table = self::getTableName();
-		if ($this->fields['id']['value'] != null) {
+		if ($this->fields['id']['value'] != NULL) {
 			foreach ($this->fields as $field => $f) {
-				if ($field != 'id' && $f['value'] != null) {
+				if ($field != 'id' && $f['value'] != NULL) {
 					$sets[] = self::getEqualBind($field);
 				}
 			}
@@ -122,7 +128,7 @@ abstract class ModelPDO {
 			$q = "UPDATE {$table} SET {$set} WHERE {$where}";
 		} else {
 			foreach ($this->fields as $field => $f) {
-				if ($field != 'id' && $f['value'] != null) {
+				if ($field != 'id' && $f['value'] != NULL) {
 					$cols[] = self::getFieldName($field);
 					$binds[] = self::getBindName($field);
 				}
@@ -133,13 +139,12 @@ abstract class ModelPDO {
 		}
 		$sth = ModelPDO::getPDO()->prepare($q);
 		foreach ($this->fields as $field => $f) {
-			$value = $f['value'];
-			if ($f['value'] != null) {
+			if ($f['value'] != NULL) {
 				$sth->bindValue(self::getBindName($field), $f['value'], $f['type']); 
 			}
 		}
 		$result = $sth->execute();
-		if ($result && $this->fields['id']['value'] == null) {
+		if ($result && $this->fields['id']['value'] == NULL) {
 			$this->fields['id']['value'] = self::getPDO()->lastInsertId();
 		}
 		return $result;
@@ -147,7 +152,7 @@ abstract class ModelPDO {
 
 	public function delete() {
 		$id = $this->fields['id']['value'];
-		if ($id == null) {
+		if ($id == NULL) {
 			return;
 		}
 		$table = self::getTableName();
@@ -188,18 +193,28 @@ abstract class ModelPDO {
 		}
 	}
 
-	protected function getJSONData($depth = 0) {
-		$fs = array();
-		foreach ($this->fields as $field => $f) {
-			if ($f['value'] != null) {
-				$fs[$field] = $f['value'];
-			}
-		}
-		return $fs;
+	public function encodeJSON($depth = 0) {
+		return json_encode($this->getData($depth));
 	}
 
-	public function encodeJSON($depth = 0) {
-		return json_encode($this->getJSONData(++$depth));
+	protected function getData($depth = 0) {
+		$data = array();
+		foreach ($this->fields as $field => $f) {
+			if ($f['value'] != NULL) {
+				$data[$field] = $f['value'];
+			}
+		}
+		if ($depth-- > 0) {
+			$childJSON = $this->getChildData($depth);
+			if ($childJSON) {
+				$data += $childJSON;
+			}
+		}
+		return $data;
+	}
+
+	protected function getChildData($depth) {
+		return null;
 	}
 
 }

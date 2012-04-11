@@ -21,14 +21,7 @@ if(isset($_REQUEST['request'])) {
 				break;
 			case 'loadQuizs':
 				$quizs = Quiz::getAllByUser($lq->user);
-				$qs = array();
-				if($quizs) {
-					foreach ($quizs as $quiz) {
-						$qs[] = $quiz->getJSONData();
-					}
-				}
-					
-				echo json_encode($qs);
+				echo Quiz::encodeAllJSON($quizs);
 				break;
 	}
 } else {

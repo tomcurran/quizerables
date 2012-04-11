@@ -7,7 +7,7 @@ class Quiz extends ModelPDO {
 	}
 
 
-	public function __construct($data = false) {
+	public function __construct(array $data = NULL) {
 		$schema = array(
 			'user_id'	 => PDO::PARAM_INT,
 			'title'	   => PDO::PARAM_STR,
@@ -23,15 +23,10 @@ class Quiz extends ModelPDO {
 		return Question::getAllByQuiz($this);
 	}
 
-	public function getJSONData($depth = 0) {
-		$data = parent::getJSONData($depth);
-		if (--$depth > 0) {
-			$questions = $this->getQuestions();
-			if ($questions) {
-				foreach ($questions as $question) {
-					$data['questions'][] = $question->getJSONData($depth);
-				}
-			}
+	protected function getChildData($depth) {
+		$data = NULL;
+		foreach ($this->getQuestions() as $question) {
+			$data['questions'][] = $question->getData($depth);
 		}
 		return $data;
 	}

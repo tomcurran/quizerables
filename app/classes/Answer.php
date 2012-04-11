@@ -7,7 +7,7 @@ class Answer extends ModelPDO {
 	}
 
 
-	public function __construct($data = false) {
+	public function __construct(array $data = NULL) {
 		$schema = array(
 			'question_id' => PDO::PARAM_INT,
 			'text'		=> PDO::PARAM_STR,
