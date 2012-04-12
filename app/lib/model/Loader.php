@@ -3,8 +3,9 @@
 class Loader {
 
 	static $load_paths = array(
-		'classes/',
-		'lib/Twig/'
+		'lib/model/',
+		'lib/controller/',
+		'lib/view/Twig/'
 	);
 
 	static function register() {

@@ -1,1 +1,0 @@
-<?phprequire_once 'init.php';$naire_id = isset($_GET['id']) ? $_GET['id'] : 1;$questionnaire = Quiz::get($naire_id);$questions = $questionnaire->getQuestions();$lq->render('questionnaire.html', array('questionnaire' => $questionnaire, 'questions' => $questions));?>
