@@ -1,7 +1,7 @@
 $(loadQuiz);
 
 function loadQuiz() {
-	$.getJSON('editQuiz.php', {
+	$.post('editQuiz.php', {
 		request: 'loadQuiz',
 		id: $('#id').val(),
 		csrf: $('#csrf').val()
@@ -19,7 +19,7 @@ function loadQuiz() {
 		}
 		$('#quizDetails').focusout(saveQuizDetails);
 		$('#newQuestion').click(newQuestion);
-	});
+	}, 'json');
 }
 
 function saveQuizDetails() {
@@ -29,16 +29,16 @@ function saveQuizDetails() {
 		title: $('#title').val(),
 		description: $('#description').val(),
 		csrf: $('#csrf').val()
-	});
+	}, 'json');
 }
 
 function newQuestion() {
 	$('#newQuestion').attr('disabled', true);
-	$.getJSON('editQuiz.php', {
+	$.post('editQuiz.php', {
 		request: 'createQuestion',
 		id: $('#id').val(),
 		csrf: $('#csrf').val()
-	}, addQuestion)
+	}, addQuestion, 'json')
 	.complete(function(){    
 	    $('#newQuestion').attr('disabled', false);
 	});
@@ -81,7 +81,7 @@ function saveQuestion() {
 		questionText: text,
 		questionRequired: required,
 		csrf: $('#csrf').val()
-	});
+	}, function(){}, 'json');
 }
 
 function deleteQuestion() {
@@ -95,5 +95,5 @@ function deleteQuestion() {
 	}, function() {
 		$(that).parent().slideUp();
 		$(that).parent().remove();
-	});
+	}, 'json');
 }
