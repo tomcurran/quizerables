@@ -3,10 +3,8 @@
 class User extends ModelPDO {
 
 	public static function fromSession() {
-		if (isset($_SESSION['user_id']) && isset($_SESSION['fingerprint'])) {
-			if ($_SESSION['fingerprint'] == md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'])) {
-				$user = self::get($_SESSION['user_id']);
-			}
+		if (isset($_SESSION['user_id']) && isset($_SESSION['csrf'])) {
+			$user = self::get($_SESSION['user_id']);
 			return $user ? $user : false;
 		}
 		return false;
@@ -16,11 +14,11 @@ class User extends ModelPDO {
 		$user = self::getBy(array('name' => $name));
 		if ($user && $user->validatePassword($password)) {
 			session_regenerate_id();
-			$_SESSION['fingerprint'] = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
 			$_SESSION['user_id'] = $user->id;
+			$_SESSION['csrf'] = User::generateSalt();
 			return $user;
 		}
-		return false;
+		return NULL;
 	}
 
 	public static function logout() {
@@ -41,11 +39,14 @@ class User extends ModelPDO {
 
 	// crackstation.net/hashing-security.html
 	public static function hashPassword($password) {
-		$salt = bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
+		$salt = User::generateSalt();
 		$hash = hash('sha256', $salt . $password);
 		return $salt . $hash;
 	}
 
+	private static function generateSalt() {
+		return bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
+	}
 
 	public function __construct(array $data = NULL) {
 		$schema = array(
@@ -55,6 +56,7 @@ class User extends ModelPDO {
 		);
 		parent::__construct($schema, $data);
 	}
+
 
 	public function getQuizs() {
 		return Quiz::getAllByUser($this);

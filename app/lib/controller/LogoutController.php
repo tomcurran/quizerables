@@ -3,7 +3,9 @@
 class LogoutController extends QuizerablesController {
 
 	public function main() {
-		User::logout();
+	    if ($this->validCSRF()) {
+		    User::logout();
+		}
 		$this->redirect('index.php');
 	}
 

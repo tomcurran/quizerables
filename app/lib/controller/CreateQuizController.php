@@ -15,20 +15,27 @@ class CreateQuizController extends QuizerablesController {
 			echo '{"error": "not logged in"}';
 			return;
 		}
+		if (!$this->validCSRF()) {
+			echo '{"error": "invalid csrf"}';
+			return;
+		}
+		$user = $this->getUser();
 		switch ($request) {
 			case 'createQuiz':
 				$quiz = new Quiz();
 				$quiz->title = $_REQUEST['quizTitle'];
-				$quiz->user_id = $this->getUser()->id;
+				$quiz->user_id = $user->id;
 				$quiz->save();
 				echo $quiz->encodeJSON();
 				break;
 			case 'deleteQuiz':
 				$quiz = Quiz::get($_REQUEST['quizId']);
-				$quiz->delete();
+				if ($quiz->user_id == $user->id) {
+					$quiz->delete();
+				}
 				break;
 			case 'loadQuizs':
-				$quizs = Quiz::getAllByUser($this->getUser());
+				$quizs = Quiz::getAllByUser($user);
 				echo Quiz::encodeAllJSON($quizs);
 				break;
 		}

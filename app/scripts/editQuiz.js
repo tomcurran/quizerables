@@ -3,7 +3,8 @@ $(loadQuiz);
 function loadQuiz() {
 	$.getJSON('editQuiz.php', {
 		request: 'loadQuiz',
-		id: $('#id').val()
+		id: $('#id').val(),
+		csrf: $('#csrf').val()
 	}, function(json) {
 		$('#id').val(json.id);
 		$('#title').val(json.title);
@@ -27,6 +28,7 @@ function saveQuizDetails() {
 		id: $('#id').val(),
 		title: $('#title').val(),
 		description: $('#description').val(),
+		csrf: $('#csrf').val()
 	});
 }
 
@@ -34,6 +36,7 @@ function newQuestion() {
 	$.getJSON('editQuiz.php', {
 		request: 'createQuestion',
 		id: $('#id').val(),
+		csrf: $('#csrf').val()
 	}, addQuestion);
 }
 
@@ -72,7 +75,8 @@ function saveQuestion() {
 		id: $('#id').val(),
 		questionId: id,
 		questionText: text,
-		questionRequired: required
+		questionRequired: required,
+		csrf: $('#csrf').val()
 	});
 }
 
@@ -82,7 +86,8 @@ function deleteQuestion() {
 	$.post('editQuiz.php', {
 		request: 'deleteQuestion',
 		id: $('#id').val(),
-		questionId: id
+		questionId: id,
+		csrf: $('#csrf').val()
 	}, function() {
 		$(that).parent().slideUp();
 		$(that).parent().remove();

@@ -26,7 +26,11 @@ abstract class QuizerablesController {
 			return;
 		}
 		$this->main();
-		$this->addToView('user', $this->getUser());
+		$user = $this->getUser();
+		$this->addToView('user', $user);
+		if ($this->isLoggedIn()) {
+			$this->addToView('csrf', $_SESSION['csrf']);
+		}
 		$this->render();
 	}
 
@@ -70,6 +74,14 @@ abstract class QuizerablesController {
 		if ($this->template) {
 			echo $this->twig->render($this->template, $this->templateContext);
 		}
+	}
+
+	public function validCSRF() {
+		if (!$this->isLoggedIn()) {
+			return false;
+		}
+		$requestCSRF = isset($_REQUEST['csrf']) ? $_REQUEST['csrf'] : 'not valid';
+		return $requestCSRF == $_SESSION['csrf'];
 	}
 
 }

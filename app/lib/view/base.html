@@ -11,7 +11,8 @@
 		<div id="logo"><h1>Les Quizerables</h1></div>
 {% if user %}
 		<div>you're logged in {{ user.name }}</div>
-		<a href="logout.php">Log out</a>
+		<a href="logout.php?csrf={{ csrf }}">Log out</a>
+		<div style="display:none;"><input type="hidden" id="csrf" value="{{ csrf }}" /></div>
 {% else %}
 		<form id="loginForm" method="POST" action="login.php">
 			Username:<input type="text" name="username"/>

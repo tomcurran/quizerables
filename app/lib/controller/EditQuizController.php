@@ -24,11 +24,17 @@ class EditQuizController extends QuizerablesController {
 
 	public function async($requset) {
 		if (!$this->isLoggedIn()) {
-			$this->redirect('index.php');
+			echo '{"error": "not logged in"}';
+			return;
+		}
+		if (!$this->validCSRF()) {
+			echo '{"error": "invalid csrf"}';
+			return;
 		}
 		$quiz = Quiz::get($_REQUEST['id']);
 		if ($quiz->user_id != $this->getUser()->id) {
-			die('GET THE FUCK OOT!');
+			echo '{"error": "not your quiz to edit"}';
+			return;
 		}
 		switch ($requset) {
 			case 'loadQuiz':
