@@ -33,11 +33,15 @@ function saveQuizDetails() {
 }
 
 function newQuestion() {
+	$('#newQuestion').attr('disabled', true);
 	$.getJSON('editQuiz.php', {
 		request: 'createQuestion',
 		id: $('#id').val(),
 		csrf: $('#csrf').val()
-	}, addQuestion);
+	}, addQuestion)
+	.complete(function(){    
+	    $('#newQuestion').attr('disabled', false);
+	});
 }
 
 function addQuestion(question) {
