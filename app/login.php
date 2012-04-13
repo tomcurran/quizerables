@@ -3,6 +3,6 @@
 require_once('init.php');
 
 $controller = new LoginController();
-$controller->control();
+echo $controller->control();
 
 ?>

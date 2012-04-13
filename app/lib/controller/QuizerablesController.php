@@ -9,6 +9,7 @@ abstract class QuizerablesController {
 	private $scripts = array();
 
 	public function __construct() {
+		session_start();
 		Twig_Autoloader::register();
 		$loader = new Twig_Loader_Filesystem('lib/view');
 		$this->twig = new Twig_Environment($loader, array(
@@ -20,22 +21,23 @@ abstract class QuizerablesController {
 	}
 
 	public function control() {
-		session_start();
 		if(isset($_REQUEST['request'])) {
-			$this->async($_REQUEST['request']);
-			return;
+			$json = $this->async($_REQUEST['request']);
+			if (!$json) {
+				$json = '{}';
+			}
+			return $json;
 		}
 		$this->main();
-		$user = $this->getUser();
-		$this->addToView('user', $user);
+		$this->addToView('user', $this->getUser());
 		if ($this->isLoggedIn()) {
 			$this->addToView('csrf', $_SESSION['csrf']);
 		}
-		$this->render();
+		return $this->template ? $this->twig->render($this->template, $this->templateContext) : '';
 	}
 
 	public function main() { }
-	public function async() { }
+	public function async() { return '{}'; }
 
 	public function isLoggedIn() {
 		$user = $this->getUser();
@@ -68,12 +70,6 @@ abstract class QuizerablesController {
 
 	public function setView($template) {
 		$this->template = $template;
-	}
-
-	public function render() {
-		if ($this->template) {
-			echo $this->twig->render($this->template, $this->templateContext);
-		}
 	}
 
 	public function validCSRF() {
