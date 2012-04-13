@@ -40,8 +40,13 @@ abstract class ModelPDO {
 		return "{$fieldName} = {$bindName}";
 	}
 
-	protected static function getPropertyName($prop) {
-		return substr($prop, strlen(self::getModelName()) + 1);
+	protected static function isFieldName($name) {
+		$modelName = self::getModelName();
+		return substr($name, 0, strlen($modelName) + 1) === "{$modelName}_";
+	}
+
+	protected static function getPropertyName($name) {
+		return substr($name, strlen(self::getModelName()) + 1);
 	}
 
 	public static function encodeAllJSON(array $models, $depth = 0) {
@@ -62,25 +67,16 @@ abstract class ModelPDO {
 
 	protected static function getBy(array $where = NULL) {
 		$sth = self::getExecute($where);
-		$data = $sth->fetch(PDO::FETCH_ASSOC);
-		if ($data) {
-			$modelName = self::getModelName();
-			return new $modelName($data);
-		}
-		return NULL;
+		$data = $sth->fetch();
+		$sth->closeCursor();
+		return $data;
 	}
 
 	protected static function getAllBy(array $where = NULL) {
 		$sth = self::getExecute($where);
-		$data = $sth->fetchAll(PDO::FETCH_ASSOC);
-		$models = array();
-		if ($data) {
-			foreach ($data as $d) {
-				$modelName = self::getModelName();
-				$models[] = new $modelName($d);
-			}
-		}
-		return $models;
+		$data = $sth->fetchAll();
+		$sth->closeCursor();
+		return $data;
 	}
 
 	private static function getExecute(array $where = NULL) {
@@ -99,6 +95,7 @@ abstract class ModelPDO {
 				$sth->bindParam(self::getBindName($field), $value);
 			}
 		}
+		$sth->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, self::getModelName());
 		$sth->execute();
 		return $sth;
 	}
@@ -106,12 +103,10 @@ abstract class ModelPDO {
 
 	private $fields = array();
 
-	public function __construct(array $schema, array $data = NULL) {
+	public function __construct(array $schema) {
 		$schema = array('id' => PDO::PARAM_INT) + $schema;
 		foreach ($schema as $name => $type) {
-			$fieldName = self::getFieldName($name);
-			$value = isset($data[$fieldName]) ? $data[$fieldName] : NULL;
-			$this->fields[$name] = array('value' => $value, 'type' => $type);
+			$this->fields[$name] = array('value' => NULL, 'type' => $type);
 		}
 	}
 
@@ -147,6 +142,7 @@ abstract class ModelPDO {
 		if ($result && $this->fields['id']['value'] == NULL) {
 			$this->fields['id']['value'] = self::getPDO()->lastInsertId();
 		}
+		$sth->closeCursor();
 		return $result;
 	}
 
@@ -166,10 +162,14 @@ abstract class ModelPDO {
 				unset($f['value']);
 			}
 		}
+		$sth->closeCursor();
 		return $result;
 	}
  
 	public function __set($name, $value) {
+		if (self::isFieldName($name)) {
+			$name = self::getPropertyName($name);
+		}
 		if (array_key_exists($name, $this->fields)) {
 			$this->fields[$name]['value'] = $value;
 		}

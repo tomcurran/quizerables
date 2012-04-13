@@ -106,6 +106,7 @@ class EditQuizController extends QuizerablesController {
 			$this->addError('Problem saving question');
 			return false;
 		}
+		return true;
 	}
 
 	private function deleteQuestion($question) {
@@ -113,6 +114,7 @@ class EditQuizController extends QuizerablesController {
 			$this->addError('Problem deleting question');
 			return false;
 		}
+		return true;
 	}
 
 }

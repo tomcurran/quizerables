@@ -25,7 +25,7 @@ class CreateQuizController extends QuizerablesController {
 				$quiz = new Quiz();
 				$quiz->title = $_REQUEST['quizTitle'];
 				$quiz->user_id = $user->id;
-				if (!$quiz->save()) {
+				if (!$this->saveQuiz($quiz)) {
 					return;
 				}
 				return $quiz->encodeJSON();
@@ -62,6 +62,7 @@ class CreateQuizController extends QuizerablesController {
 			$this->addError('Problem saving quiz');
 			return false;
 		}
+		return true;
 	}
 
 	private function deleteQuiz($quiz) {
@@ -69,6 +70,7 @@ class CreateQuizController extends QuizerablesController {
 			$this->addError('Problem deleting quiz');
 			return false;
 		}
+		return true;
 	}
 
 }
