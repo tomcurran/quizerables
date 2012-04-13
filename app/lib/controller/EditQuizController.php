@@ -49,6 +49,12 @@ class EditQuizController extends QuizerablesController {
 				break;
 			case 'saveQuestion':
 				$question = Question::get($_REQUEST['questionId']);
+				if (!$question) {
+					return '{"error": "Question does not exist"}';
+				}
+				if ($question->quiz_id != $quiz->id) {
+					return '{"error": "Question belongs to another quiz"}';
+				}
 				$question->text = $_REQUEST['questionText'];
 				$question->required = $_REQUEST['questionRequired'];
 				if (!$question->save()) {
