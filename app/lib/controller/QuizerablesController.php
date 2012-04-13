@@ -7,6 +7,7 @@ abstract class QuizerablesController {
 	private $template;
 	private $templateContext = array();
 	private $scripts = array();
+	private $errors = array();
 
 	public function __construct() {
 		session_start();
@@ -25,6 +26,9 @@ abstract class QuizerablesController {
 			$json = $this->async($_REQUEST['request']);
 			if (!$json) {
 				$json = '{}';
+			}
+			if (!empty($this->errors)) {
+				$json = json_encode(array('errors' => $this->errors));
 			}
 			return $json;
 		}
@@ -58,6 +62,10 @@ abstract class QuizerablesController {
 			$this->templateContext['scripts'][] = 'jquery.js';
 		}
 		$this->templateContext['scripts'][] = $script;
+	}
+
+	public function addError($error) {
+		$this->errors[] = $error;
 	}
 
 	public function redirect($page) {

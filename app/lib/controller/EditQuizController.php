@@ -8,14 +8,11 @@ class EditQuizController extends QuizerablesController {
 		}
 		$user = $this->getUser();
 		if(isset($_REQUEST['id'])) {
-			$quiz = Quiz::get($_REQUEST['id']);
-			if ($quiz->user_id != $user->id) {
-				die('GET THE FUCK OOT!');
-			}
+			$quiz = $this->getQuiz($_REQUEST['id']);
 		} else {
 			$quiz = new Quiz();
 			$quiz->user_id = $user->id;
-			$quiz->save();
+			$this->saveQuiz($quiz);
 		}
 		$this->setView('editQuiz.html');
 		$this->addToView('quiz', $quiz);
@@ -24,17 +21,16 @@ class EditQuizController extends QuizerablesController {
 
 	public function async($requset) {
 		if (!$this->isLoggedIn()) {
-			return '{"error": "Invalid authenication"}';
+			$this->addError('Invalid authenication');
+			return;
 		}
 		if (!$this->validCSRF()) {
-			return '{"error": "Invalid CSRF token"}';
+			$this->addError('Invalid CSRF token');
+			return;
 		}
-		$quiz = Quiz::get($_REQUEST['id']);
+		$quiz = $this->getQuiz($_REQUEST['id']);
 		if (!$quiz) {
-			return '{"error": "Quiz does not exist"}';
-		}
-		if ($quiz->user_id != $this->getUser()->id) {
-			return '{"error": "Quiz belongs to another user"}';
+			return;
 		}
 		switch ($requset) {
 			case 'loadQuiz':
@@ -43,44 +39,79 @@ class EditQuizController extends QuizerablesController {
 			case 'saveQuiz':
 				$quiz->title = $_REQUEST['title'];
 				$quiz->description = $_REQUEST['description'];
-				if (!$quiz->save()) {
-					return '{"error": "Problem saving quiz"}';
-				}
+				$this->saveQuiz($quiz);
 				break;
 			case 'saveQuestion':
-				$question = Question::get($_REQUEST['questionId']);
+				$question = $this->getQuestion($_REQUEST['questionId'], $quiz);
 				if (!$question) {
-					return '{"error": "Question does not exist"}';
-				}
-				if ($question->quiz_id != $quiz->id) {
-					return '{"error": "Question belongs to another quiz"}';
+					return;
 				}
 				$question->text = $_REQUEST['questionText'];
 				$question->required = $_REQUEST['questionRequired'];
-				if (!$question->save()) {
-					return '{"error": "Problem saving question"}';
-				}
+				$this->saveQuestion($question);
 				break;
 			case 'createQuestion':
 				$question = new Question();
 				$question->quiz_id = $quiz->id;
-				if (!$question->save()) {
-					return '{"error": "Problem saving question"}';
+				if (!$this->saveQuestion($question)) {
+					return;
 				}
 				return $question->encodeJSON();
 				break;
 			case 'deleteQuestion':
-				$question = Question::get($_REQUEST['questionId']);
+				$question = $this->getQuestion($_REQUEST['questionId'], $quiz);
 				if (!$question) {
-					return '{"error": "Question does not exist"}';
+					return;
 				}
-				if ($question->quiz_id != $quiz->id) {
-					return '{"error": "Question belongs to another quiz"}';
-				}
-				if (!$question->delete()) {
-					return '{"error": "Problem deleting question"}';
-				}
+				$this->deleteQuestion($question);
 				break;
+		}
+	}
+
+	private function getQuiz($id) {
+		$quiz = Quiz::get($id);
+		if (!$quiz) {
+			$this->addError('Quiz does not exist');
+			return false;
+		}
+		if ($quiz->user_id != $this->getUser()->id) {
+			$this->addError('Quiz belongs to another user');
+			return false;
+		}
+		return $quiz;
+	}
+
+	private function saveQuiz($quiz) {
+		if (!$quiz->save()) {
+			$this->addError('Problem saving quiz');
+			return false;
+		}
+	}
+
+	private function getQuestion($id, $quiz) {
+		$question = Question::get($id);
+		if (!$question) {
+			$this->addError('Question does not exist');
+			return false;
+		}
+		if ($question->quiz_id != $quiz->id) {
+			$this->addError('Question belongs to another quiz');
+			return false;
+		}
+		return $question;
+	}
+
+	private function saveQuestion($question) {
+		if (!$question->save()) {
+			$this->addError('Problem saving question');
+			return false;
+		}
+	}
+
+	private function deleteQuestion($question) {
+		if (!$question->delete()) {
+			$this->addError('Problem deleting question');
+			return false;
 		}
 	}
 
