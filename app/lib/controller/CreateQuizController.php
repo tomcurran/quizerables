@@ -8,6 +8,12 @@ class CreateQuizController extends QuizerablesController {
 		}
 		$this->setView('createQuiz.html');
 		$this->addScript('createQuiz.js');
+		$user = $this->getUser();
+		$this->addToView('statistics', array(
+		    'quizs' => Quiz::countByUser($user),
+		    'questions' => Question::countByUser($user),
+		    'answers' => Answer::countByUser($user)
+		));
 	}
 
 	public function async($request) {

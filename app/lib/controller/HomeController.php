@@ -7,6 +7,12 @@ class HomeController extends QuizerablesController {
 			$this->redirect('createQuiz.php');
 		}
 		$this->setView('home.html');
+		$this->addToView('statistics', array(
+			'users' => User::countAll(),
+			'quizs' => Quiz::countAll(),
+			'questions' => Question::countAll(),
+			'answers' => Answer::countAll()
+		));
 	}
 
 }

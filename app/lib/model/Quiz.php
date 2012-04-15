@@ -6,6 +6,10 @@ class Quiz extends ModelPDO {
 		return self::getAllBy(array('user_id' => $user->id));
 	}
 
+	public static function countByUser($user) {
+		return self::countBy(array('user_id' => $user->id));
+	}
+
 
 	public function __construct(array $data = NULL) {
 		$schema = array(

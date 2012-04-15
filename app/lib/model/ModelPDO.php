@@ -82,6 +82,25 @@ abstract class ModelPDO {
 	private static function getExecute(array $where = NULL) {
 		$table = self::getTableName();
 		$q = "SELECT * FROM {$table}";
+		$sth = self::prepareQuery($q, $where);
+		$sth->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, self::getModelName());
+		$sth->execute();
+		return $sth;
+	}
+
+	public static function countAll() {
+		return self::countBy();
+	}
+
+	protected static function countBy(array $where = NULL) {
+		$table = self::getTableName();
+		$q = "SELECT COUNT(*) FROM {$table}";
+		$sth = self::prepareQuery($q, $where);
+		$sth->execute();
+		return $sth->fetchColumn();
+	}
+
+	private static function prepareQuery($q, array $where = NULL) {
 		if ($where) {
 			$q .= ' WHERE';
 			foreach ($where as $field => $value) {
@@ -95,8 +114,6 @@ abstract class ModelPDO {
 				$sth->bindParam(self::getBindName($field), $value);
 			}
 		}
-		$sth->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, self::getModelName());
-		$sth->execute();
 		return $sth;
 	}
 
@@ -152,10 +169,8 @@ abstract class ModelPDO {
 			return;
 		}
 		$table = self::getTableName();
-		$where = self::getEqualBind('id');
-		$q = "DELETE FROM {$table} WHERE {$where}";
-		$sth = ModelPDO::getPDO()->prepare($q);
-		$sth->bindValue(self::getBindName('id'), $id, $this->fields['id']['type']);
+		$q = "DELETE FROM {$table}";
+		$sth = self::prepareQuery($q, array('id' => $id));
 		$result = $sth->execute();
 		if ($result) {
 			foreach ($this->fields as $field => $f) {
