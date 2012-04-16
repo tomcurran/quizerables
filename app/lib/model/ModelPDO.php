@@ -82,7 +82,7 @@ abstract class ModelPDO {
 	private static function getExecute(array $where = NULL) {
 		$table = self::getTableName();
 		$q = "SELECT * FROM {$table}";
-		$sth = self::prepareQuery($q, $where);
+		$sth = self::prepareQuery($q, $where ? array(self::getModelName() => $where) : NULL);
 		$sth->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, self::getModelName());
 		$sth->execute();
 		return $sth;
@@ -102,16 +102,34 @@ abstract class ModelPDO {
 
 	private static function prepareQuery($q, array $where = NULL) {
 		if ($where) {
-			$q .= ' WHERE';
-			foreach ($where as $field => $value) {
-				$whereBind = self::getEqualBind($field);
-				$q .= " {$whereBind}";
+			$modelName = self::getModelName();
+			foreach ($where as $model => $value) {
+				if ($modelName != $model) {
+					$q .= ", {$model}s";
+				}
 			}
+			$q .= ' WHERE ';
+			$wheres = array();
+			foreach ($where as $model => $field) {
+				if (is_array($field)) {
+					foreach ($field as $f => $value) {
+						$bindName = self::getBindName($f);
+						$wheres[] = "{$model}_{$f} = {$bindName}";
+					}
+				} else {
+					$wheres[] = "{$model}_{$field} = {$field}";
+				}
+			}
+			$q .= implode(' AND ', $wheres);
 		}
 		$sth = self::getPDO()->prepare($q);
 		if ($where) {
-			foreach ($where as $field => $value) {
-				$sth->bindParam(self::getBindName($field), $value);
+			foreach ($where as $table => $field) {
+				if (is_array($field)) {
+					foreach ($field as $f => $value) {
+						$sth->bindParam(self::getBindName($f), $value);  
+					}
+				}
 			}
 		}
 		return $sth;
@@ -170,7 +188,7 @@ abstract class ModelPDO {
 		}
 		$table = self::getTableName();
 		$q = "DELETE FROM {$table}";
-		$sth = self::prepareQuery($q, array('id' => $id));
+		$sth = self::prepareQuery($q, array(self::getModelName() => array('id' => $id)));
 		$result = $sth->execute();
 		if ($result) {
 			foreach ($this->fields as $field => $f) {

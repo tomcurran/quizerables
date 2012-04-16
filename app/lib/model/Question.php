@@ -7,24 +7,20 @@ class Question extends ModelPDO {
 	}
 
 	public static function countByUser($user) {
-		$bindName = self::getBindName('user_id');
-		$q = 'SELECT COUNT(*) FROM quizs, questions';
-		$q .= " WHERE quiz_user_id = {$bindName}";
-		$q .= ' AND question_quiz_id = quiz_id';
-		$sth = self::getPDO()->prepare($q);
-		$sth->bindValue($bindName, $user->id, PDO::PARAM_INT);
-		$sth->execute();
-		return $sth->fetchColumn();
+		return self::countBy(array(
+			Quiz::getModelName() => array('user_id' => $user->id),
+			Question::getModelName() => 'quiz_id'
+		));
 	}
 
 
-	public function __construct(array $data = NULL) {
+	public function __construct() {
 		$schema = array(
 			'quiz_id'  => PDO::PARAM_INT,
 			'text'	 => PDO::PARAM_STR,
 			'required' => PDO::PARAM_BOOL
 		);
-		parent::__construct($schema, $data);
+		parent::__construct($schema);
 	}
 
 	public function getAnswers() {
