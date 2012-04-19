@@ -49,6 +49,10 @@ body {
 	padding: 20px;
 }
 
+#errors {
+	color: red;
+}
+
 #info, #quizContainer {
 	width: 380px;
 	float: left;
@@ -62,7 +66,15 @@ body {
 }
 
 #quizHeader h3 {
-	display: inline;
+	float:left;
+}
+
+#quizHeaderForm {
+	float: right;
+}
+
+#quizs {
+	clear:both;
 }
 
 .quiz {

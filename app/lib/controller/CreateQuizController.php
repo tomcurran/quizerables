@@ -7,6 +7,7 @@ class CreateQuizController extends QuizerablesController {
 			$this->redirect('index.php');
 		}
 		$this->setView('createQuiz.html');
+		$this->addScript('jquery.watermarkinput.js');
 		$this->addScript('createQuiz.js');
 		$user = $this->getUser();
 		$this->addToView('statistics', array(
