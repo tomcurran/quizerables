@@ -12,9 +12,13 @@
 		<div id="header">
 			<div id="logo"><img src="images/LesQuizerables.gif" /></div>
 {% if user %}
-			<div>you're logged in {{ user.name }}</div>
-			<a href="logout.php?csrf={{ csrf }}">Log out</a>
-			<div style="display:none;"><input type="hidden" id="csrf" value="{{ csrf }}" /></div>
+			<div id="headerinfo">
+				<span>{{ user.name }}<span><br />
+				<a href="/">My Quizes</a><br />
+				<a href="user.php">My Profile</a><br />
+				<a href="logout.php?csrf={{ csrf }}">Log out</a>
+				<div style="display:none;"><input type="hidden" id="csrf" value="{{ csrf }}" /></div>
+			</div>
 {% else %}
 {% include 'loginForm.html' %}
 {% endif %}
@@ -27,7 +31,7 @@
 		<div id="clearfix"></div>
 	</div>
 	<div id="footer">
-		<p><strong>Les Quizerable (C) 2012</strong></p>
+		<p><strong>Les Quizerables (C) 2012</strong></p>
 	</footer>
 </body>
 </html>

@@ -1,6 +1,7 @@
 * {
 	margin: 0;
 	font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+	line-height: 150%;
 }
 
 body {
@@ -24,6 +25,10 @@ body {
 
 #header form {
 	padding: 100px 0;
+}
+
+#header a {
+	color: white;
 }
 
 #logo {
