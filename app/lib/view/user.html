@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title 'User' %}
+
+{% block main %}
+		<div id="user">
+			<h3>User Control</h3>
+{% include 'errors.html' %}
+			<form id="userForm" method="POST" action="user.php">
+				<div style="display:none;"><input type="hidden" id="csrf" name="csrf" value="{{ csrf }}" /></div>
+				Username:<input type="text" id="username" name="username" value="{% if useredit.username %}{{ useredit.username }}{% else %}{{ user.name }}{% endif %}" /><br />
+				Email:<input type="text" id="email" name="email" value="{% if useredit.email %}{{ useredit.email }}{% else %}{{ user.email }}{% endif %}" /><br />
+				New Password:<input type="password" id="newPassword" name="newPassword" {% if useredit.newPassword %}value="{{ useredit.newPassword }}"{% endif %} /><br /><br />
+				Current Password:<input type="password" id="password" name="password" /><br />
+				<input type="submit" id="submit" name="submit" value="Submit" />
+			</form>
+		</div>
+{% endblock %}
