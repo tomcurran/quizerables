@@ -1,0 +1,70 @@
+* {
+	margin: 0;
+	font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+}
+
+body {
+	min-width: 800px;
+}
+
+
+
+#headerwrapper {
+	height: 200px;
+	background: black;
+	color: white;
+}
+
+#header {
+	width: 800px;
+	margin: auto;
+	text-align: right;
+	padding: 10px 10px;
+}
+
+#header form {
+	padding: 100px 0;
+}
+
+#logo {
+	float:left;
+}
+
+#mainwrapper {
+	background: #eeeeee; /* Old browsers */
+	background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* IE10+ */
+	background: linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+	margin: auto;
+
+}
+
+#main {
+	width: 800px;
+	margin: auto;
+	padding: 20px;
+}
+
+#info {
+	width: 380px;
+	float: left;
+}
+
+#register, #statistics {
+	width: 380px;
+	float: right;
+	clear: right;
+}
+
+#clearfix {
+	clear:both;
+}
+
+#footer {
+	clear: both;
+	text-align: center;
+}
