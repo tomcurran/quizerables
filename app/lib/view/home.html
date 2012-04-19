@@ -7,13 +7,6 @@
 			<h2>Les Quizerables the best way to make questionnaires on the interwebs.</h2>
 
 		</div>
-		<div id="statistics">
-			<h3>Statistics</h3>
-			Registered users: {{ statistics.users }}<br />
-			Total questionnaires: {{ statistics.quizs }}<br />
-			Total questions: {{ statistics.questions }}<br />
-			Total answers: {{ statistics.answers }}
-		</div>
 		<div id="register">
 			<h3>Sign Up</h3>
 			<form id="registerForm" method="POST" action="register.php">
@@ -22,5 +15,12 @@
 				Password:<input type="password" name="password" /><br />
 				<input type="submit" name="signup"value="Sign Up" />
 			</form>
+		</div>
+		<div id="statistics">
+			<h3>Statistics</h3>
+			Registered users: {{ statistics.users }}<br />
+			Total questionnaires: {{ statistics.quizs }}<br />
+			Total questions: {{ statistics.questions }}<br />
+			Total answers: {{ statistics.answers }}
 		</div>
 {% endblock %}

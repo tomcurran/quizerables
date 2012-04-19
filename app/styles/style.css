@@ -49,15 +49,29 @@ body {
 	padding: 20px;
 }
 
-#info {
+#info, #quizContainer {
 	width: 380px;
 	float: left;
 }
 
-#register, #statistics {
+#register, #statistics, #userProfile {
 	width: 380px;
 	float: right;
 	clear: right;
+	padding-bottom: 20px;
+}
+
+#quizHeader h3 {
+	display: inline;
+}
+
+.quiz {
+	width: 300px;
+	padding: 5px;
+}
+
+.quiz input {
+	float: right;
 }
 
 #clearfix {
