@@ -5,14 +5,16 @@
 {% block main %}
 		<div id="info">
 			<h2>Les Quizerables the best way to make questionnaires on the interwebs.</h2>
-			<img src="images/orangecat.jpg" /><br />
+
+		</div>
+		<div id="statistics">
 			<h3>Statistics</h3>
 			Registered users: {{ statistics.users }}<br />
 			Total questionnaires: {{ statistics.quizs }}<br />
 			Total questions: {{ statistics.questions }}<br />
 			Total answers: {{ statistics.answers }}
 		</div>
-		<div id"register">
+		<div id="register">
 			<h3>Sign Up</h3>
 			<form id="registerForm" method="POST" action="register.php">
 				Username:<input type="text" name="username"/><br />

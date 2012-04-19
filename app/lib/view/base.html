@@ -3,27 +3,30 @@
 <head>
 	<title>{% block title %}{% endblock %} - Les Quizerables</title>
 {% for script in scripts %}
-	<script src="scripts/{{ script }}" type="text/javascript"></script>
+	<script src="scripts/{{ script }}" type="text/javascript"></script>	
 {% endfor %}
+	<link rel="stylesheet" type="text/css" href="styles/style.css" />
 </head>
 <body>
-	<header>
-		<div id="logo"><h1>Les Quizerables</h1></div>
+	<div id="headerwrapper">
+		<div id="header">
+			<div id="logo"><img src="images/LesQuizerables.gif" /></div>
 {% if user %}
-		<div>you're logged in {{ user.name }}</div>
-		<a href="logout.php?csrf={{ csrf }}">Log out</a>
-		<div style="display:none;"><input type="hidden" id="csrf" value="{{ csrf }}" /></div>
+			<div>you're logged in {{ user.name }}</div>
+			<a href="logout.php?csrf={{ csrf }}">Log out</a>
+			<div style="display:none;"><input type="hidden" id="csrf" value="{{ csrf }}" /></div>
 {% else %}
 {% include 'loginForm.html' %}
 {% endif %}
-	</header>
-	<nav>
-{% block nav %}{% endblock %}
-	</nav>
-	<div>
-{% block main %}{% endblock %}
+		</div>
 	</div>
-	<footer>
+	<div id="mainwrapper">
+		<div id="main">
+{% block main %}{% endblock %}
+		</div>
+		<div id="clearfix"></div>
+	</div>
+	<div id="footer">
 		<p><strong>Les Quizerable (C) 2012</strong></p>
 	</footer>
 </body>
