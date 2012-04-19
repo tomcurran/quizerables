@@ -1,0 +1,5 @@
+		<form id="loginForm" method="POST" action="login.php">
+			Username:<input type="text" name="username" {% if login.username %}value="{{ login.username }}" {% endif %}/>
+			Password:<input type="password" name="password" />
+			<input type="submit" name="login"value="Log in" />
+		</form>

@@ -37,6 +37,9 @@ abstract class QuizerablesController {
 		if ($this->isLoggedIn()) {
 			$this->addToView('csrf', $_SESSION['csrf']);
 		}
+		if (!empty($this->errors)) {
+			$this->addToView('errors', $this->errors);
+		}
 		return $this->template ? $this->twig->render($this->template, $this->templateContext) : '';
 	}
 

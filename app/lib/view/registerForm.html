@@ -1,0 +1,6 @@
+			<form id="registerForm" method="POST" action="register.php">
+				Username:<input type="text" name="username" {% if register.username %}value="{{ register.username }}" {% endif %}/><br />
+				E-mail:<input type="text" name="email" {% if register.email %}value="{{ register.email }}" {% endif %}/><br />
+				Password:<input type="password" name="password" /><br />
+				<input type="submit" name="signup"value="Sign Up" />
+			</form>

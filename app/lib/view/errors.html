@@ -1,0 +1,7 @@
+{% if errors %}
+			<div id="errors">
+{% for error in errors %}
+				<span>{{ error }}</span><br />
+{% endfor %}
+			</div>
+{% endif %}

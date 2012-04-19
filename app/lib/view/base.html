@@ -14,11 +14,7 @@
 		<a href="logout.php?csrf={{ csrf }}">Log out</a>
 		<div style="display:none;"><input type="hidden" id="csrf" value="{{ csrf }}" /></div>
 {% else %}
-		<form id="loginForm" method="POST" action="login.php">
-			Username:<input type="text" name="username"/>
-			Password:<input type="password" name="password" />
-			<input type="submit" name="login"value="Log in" />
-		</form>
+{% include 'loginForm.html' %}
 {% endif %}
 	</header>
 	<nav>
