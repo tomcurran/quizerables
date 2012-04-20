@@ -1,0 +1,18 @@
+# Linux global ignore #
+
+.*
+!.gitignore
+*~
+
+# KDE
+.directory
+
+
+
+# Windows global ignore #
+
+# Windows image file caches
+Thumbs.db 
+
+# Folder config file
+Desktop.ini
