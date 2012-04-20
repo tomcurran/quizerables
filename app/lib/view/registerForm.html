@@ -1,6 +1,19 @@
 			<form id="registerForm" method="POST" action="register.php">
-				Username:<input type="text" name="username" {% if register.username %}value="{{ register.username }}" {% endif %}/><br />
-				E-mail:<input type="text" name="email" {% if register.email %}value="{{ register.email }}" {% endif %}/><br />
-				Password:<input type="password" name="password" /><br />
-				<input type="submit" name="signup"value="Sign Up" />
+				<table>
+					<tr>
+						<td>Username:</td>
+						<td><input type="text" name="username" {% if register.username %}value="{{ register.username }}" {% endif %}/></td>
+					</tr>
+					<tr>
+						<td>E-mail:</td>
+						<td><input type="text" name="email" {% if register.email %}value="{{ register.email }}" {% endif %}/></td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><input type="password" name="password" /></td>
+					</tr>
+					<tr>
+						<td><input type="submit" name="signup"value="Sign Up" /></td>
+					</tr>
+				</table>
 			</form>
