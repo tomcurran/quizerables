@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% if quiz is not empty %}{{ quiz.title }}{% else %}Quiz Not Found{% endif %} - Les Quizerables</title>
+	<link rel="stylesheet" href="styles/quiz/base.css">
+{% if quiz is not empty and quiz.theme_id > 0 %}
+	<link rel="stylesheet" href="styles/quiz/{{ quiz.theme_id }}.css">
+{% endif %}
+{% block head %}{% endblock %}
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header">
+{% if quiz is not empty %}
+			<h1>{{ quiz.title }}</h1>
+		</div>
+{% block main %}{% endblock %}
+{% else %}
+			<h1>Quiz Not Found</h1>
+			<p>404 no quiz found. But here's a picture of an orange ...</p>
+			<p><img src="images/orangecat.jpg" alt="orange" /></p>
+{% endif %}
+		</div>
+	</div>
+	<div id="footer">
+		<strong>Les Quizerables (C) 2012</strong>
+	</div>
+</body>
+</html>
