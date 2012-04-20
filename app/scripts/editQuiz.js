@@ -59,16 +59,19 @@ function addQuestion(question) {
 		name: 'text',
 		value: question.text
 	}).focusout(saveQuestion).appendTo(div);
-	div.append('Required: ');
+	$('<img/>', {
+    	src: 'images/delete.png',
+		title: 'Delete Question'
+    }).appendTo(
+	$('<a/>', {
+		href: 'javascript:void(0);'
+	}).click(deleteQuestion).appendTo(div));
+	$('<br />').appendTo(div);
+	div.append('Required');
 	$('<input />', {
 		type: 'checkbox',
 		name: 'required'
 	}).prop('checked', question.required == '1').click(saveQuestion).appendTo(div);
-	$('<input />', {
-		type: 'button',
-		name: 'delete',
-		value: 'Delete',
-	}).click(deleteQuestion).appendTo(div);
 	div.appendTo('#questions');
 }
 
