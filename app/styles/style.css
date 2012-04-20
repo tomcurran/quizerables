@@ -8,8 +8,6 @@ body {
 	min-width: 800px;
 }
 
-
-
 #headerwrapper {
 	height: 200px;
 	background: black;
@@ -85,16 +83,19 @@ body {
 }
 
 #quizs {
-	clear:both;
+	clear: both;
 }
 
 .quiz {
-	width: 300px;
 	padding: 5px;
+	clear: both;
 }
 
-.quiz a {
-	float: right;
+.quizTitle {
+}
+
+.quizControls {
+	 float: right;
 }
 
 .answer {
