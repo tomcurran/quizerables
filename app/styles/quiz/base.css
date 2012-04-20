@@ -1,0 +1,31 @@
+* {
+	margin: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#wrapper {
+	width: 500px;
+	margin: 10px auto;
+	padding: 20px;
+	border-radius: 10px;
+}
+
+h1 {
+	text-align: center;
+}
+
+p, h3, input {
+	margin: 10px 0;
+
+}
+
+[type='submit'] {
+	display: block;
+	width: 100px;
+	margin: 10px 50px;
+}
+
+footer {
+	text-align: center;
+	margin-top: 20px;
+}

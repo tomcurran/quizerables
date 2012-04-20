@@ -1,0 +1,13 @@
+body {
+	background: #A5EF00;
+	color: #009D91;
+}
+
+#wrapper {
+	background: #14D100;
+	border-radius: 10px;
+}
+
+h1, footer {
+	color: #FB000D
+}

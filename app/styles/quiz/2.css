@@ -1,3 +1,11 @@
 body {
-    background-color: #B58900;
+    background: black;
+}
+
+#wrapper {
+	background: white;
+}
+
+footer {
+	color: white;
 }
