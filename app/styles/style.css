@@ -19,16 +19,22 @@ body {
 #header {
 	width: 800px;
 	margin: auto;
-	text-align: right;
 	padding: 10px 10px;
 }
 
 #header form {
-	padding: 100px 0;
+	padding: 60px 0;
+	float:right;
 }
 
 #header a {
 	color: white;
+}
+
+#headerinfo {
+	float:right;
+	padding: 40px 0;
+	text-align:center;
 }
 
 #logo {
@@ -89,6 +95,11 @@ body {
 
 .quiz input {
 	float: right;
+}
+
+.answer {
+	font-style: italic;
+	margin-left: 20px;
 }
 
 #clearfix {

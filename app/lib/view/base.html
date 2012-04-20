@@ -14,7 +14,7 @@
 {% if user %}
 			<div id="headerinfo">
 				<span>{{ user.name }}<span><br />
-				<a href="/">My Quizes</a><br />
+				<a href="./">My Quizes</a><br />
 				<a href="user.php">My Profile</a><br />
 				<a href="logout.php?csrf={{ csrf }}">Log out</a>
 				<div style="display:none;"><input type="hidden" id="csrf" value="{{ csrf }}" /></div>

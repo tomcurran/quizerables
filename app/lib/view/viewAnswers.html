@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title 'View Answers' %}
+
+{% block main %}
+{% if quiz %}
+		<div id="quiz">
+			<input id="id" type="hidden" value="{{ quiz.id }}" />
+			<h3>{{ quiz.title }}</h3>
+			<div id="questions">Loading questions</div>
+		</div>
+{% else %}
+		<div id="errors">Invalid quiz</div>
+{% endif %}
+{% endblock %}
