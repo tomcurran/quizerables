@@ -7,21 +7,23 @@
 </head>
 <body>
 {% if quiz is not empty %}
-    <header>
-        <h1>{{ quiz.title }}</h1>
-        <p>{{ quiz.description }}</p>
-    </header>
+	<div id="wrapper">
+	    <header>
+		<h1>{{ quiz.title }}</h1>
+		<p>{{ quiz.description }}</p>
+	    </header>
 {% if questions is not empty %}
-    <form action='doQuiz.php' method='POST'>
+	    <form action='doQuiz.php' method='POST'>
 {% for question in questions %}
-        <h3>{{ question.text }}</h3>
-        <input type='text' name='{{ question.id }}' />
+		<h3>{{ question.text }}</h3>
+		<input type='text' name='{{ question.id }}' />
 {% endfor %}
-        <br />
-        <input type='submit' name='Sumbit' />
-    </form>
+		<br />
+		<input type='submit' name='Sumbit' />
+	    </form>
+	</div>
 {% else %}
-    <p>There are no questions to answer in this quiz.</p>
+	    <p>There are no questions to answer in this quiz.</p>
 {% endif %}
 {% else %}
     <header>

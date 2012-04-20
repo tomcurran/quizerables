@@ -1,0 +1,13 @@
+body {
+    background: white;
+    background-image: url('../../images/pearcat.jpg');
+}
+
+#wrapper {
+	background: #33CCCC;
+	color: white;
+}
+
+footer {
+	color: #33CCCC;
+}

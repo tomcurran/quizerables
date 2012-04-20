@@ -1,0 +1,12 @@
+body {
+    background: black;
+    background-image: url('http://allotmentgardens.files.wordpress.com/2011/09/2011-09-01-pumpkin.jpg');
+}
+
+#wrapper {
+	background: #FF5C00;
+}
+
+footer {
+	color: #FF5C00;
+}
