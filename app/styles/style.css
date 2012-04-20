@@ -29,10 +29,14 @@ body {
 	color: white;
 }
 
-#headerinfo {
+#nav {
 	float:right;
 	padding: 40px 0;
 	text-align:center;
+}
+
+#nav ul {
+	list-style-type: none;
 }
 
 #logo {

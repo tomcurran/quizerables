@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>{% block title %}{% endblock %} - Les Quizerables</title>
 {% for script in scripts %}
 	<script src="scripts/{{ script }}" type="text/javascript"></script>	
@@ -10,15 +11,18 @@
 <body>
 	<div id="headerwrapper">
 		<div id="header">
-			<div id="logo"><img src="images/LesQuizerables.gif" /></div>
+			<div id="logo"><img src="images/LesQuizerables.gif" alt="Les Quizerables"/></div>
 {% if user %}
-			<div id="headerinfo">
-				<span>{{ user.name }}<span><br />
-				<a href="./">My Quizes</a><br />
-				<a href="user.php">My Profile</a><br />
-				<a href="logout.php?csrf={{ csrf }}">Log out</a>
-				<div style="display:none;"><input type="hidden" id="csrf" value="{{ csrf }}" /></div>
+			<div id="nav">
+				<ul>
+					<li>{{ user.name }}</li>
+					<li><a href="createQuiz.php">My Quizes</a></li>
+					<li><a href="user.php">My Profile</a></li>
+					<li><a href="logout.php?csrf={{ csrf }}">Log out</a></li>
+				</ul>
+				
 			</div>
+			<div style="display:none;"><input type="hidden" id="csrf" value="{{ csrf }}" /></div>
 {% else %}
 {% include 'loginForm.html' %}
 {% endif %}
@@ -32,6 +36,6 @@
 	</div>
 	<div id="footer">
 		<p><strong>Les Quizerables (C) 2012</strong></p>
-	</footer>
+	</div>
 </body>
 </html>

@@ -4,7 +4,7 @@
 
 {% block main %}
 		<h3>Edit Quiz</h3>
-		<form id="quizForm" method="POST" action="submitQuiz.php">
+		<form id="quizForm" method="post" action="submitQuiz.php">
 			<div id="quizDetails">
 				<input id="id" type="hidden" name="id" value="{{ quiz.id }}" />
 				<table>
@@ -14,7 +14,7 @@
 					</tr>
 					<tr>
 						<td>Description:</td>
-						<td><input id="description" type="text" name="description" value="{{ quiz.description }}"/></td>
+						<td><input id="description" type="text" name="description" value="{{ quiz.description }}" /></td>
 					</tr>
 				</table>
 			</div>

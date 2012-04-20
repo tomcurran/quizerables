@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% if quiz is not empty %}{{ quiz.title }}{% else %}quiz Not Found{% endif %} - Les Quizerables</title>
+    <title>{% if quiz is not empty %}{{ quiz.title }}{% else %}Quiz Not Found{% endif %} - Les Quizerables</title>
     <link rel="stylesheet" href="styles/quiz/base.css">
     {% if quiz is not empty and quiz.theme_id > 0 %}<link rel="stylesheet" href="styles/quiz/{{ quiz.theme_id }}.css">{% endif %}
 </head>
@@ -13,13 +13,13 @@
 		<p>{{ quiz.description }}</p>
 	    </header>
 {% if questions is not empty %}
-	    <form action='doQuiz.php' method='POST'>
+	    <form action='doQuiz.php' method='post'>
 {% for question in questions %}
 		<h3>{{ question.text }}</h3>
 		<input type='text' name='{{ question.id }}' />
 {% endfor %}
 		<br />
-		<input type='submit' name='Sumbit' />
+		<input type='submit' name='submit' value='Submit' />
 	    </form>
 	</div>
 {% else %}

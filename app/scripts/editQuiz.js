@@ -61,7 +61,8 @@ function addQuestion(question) {
 	}).focusout(saveQuestion).appendTo(div);
 	$('<img/>', {
     	src: 'images/delete.png',
-		title: 'Delete Question'
+		title: 'Delete Question',
+		alt: 'Delete Question'
     }).appendTo(
 	$('<a/>', {
 		href: 'javascript:void(0);'
