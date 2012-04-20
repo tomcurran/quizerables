@@ -3,16 +3,25 @@
 {% block title 'Edit Quiz' %}
 
 {% block main %}
+		<h3>Edit Quiz</h3>
 		<form id="quizForm" method="POST" action="submitQuiz.php">
 			<div id="quizDetails">
 				<input id="id" type="hidden" name="id" value="{{ quiz.id }}" />
-				Title:<input id="title" type="text" name="title" value="{{ quiz.title }}" /><br />
-				Description:<input id="description" type="text" name="description" value="{{ quiz.description }}"/><br />
+				<table>
+					<tr>
+						<td>Title:</td>
+						<td><input id="title" type="text" name="title" value="{{ quiz.title }}" /></td>
+					</tr>
+					<tr>
+						<td>Description:</td>
+						<td><input id="description" type="text" name="description" value="{{ quiz.description }}"/></td>
+					</tr>
+				</table>
 			</div>
 			<div id="questions">
 				<div id="loading">Loading questions</div>
 			</div>
 			<input type="button" id="newQuestion" value="Add Question" />
-			<input type="button" value="Preview Quiz" />
+			<input type="button" id="viewQuiz" value="View Quiz" />
 		</form>
 {% endblock %}

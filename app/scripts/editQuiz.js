@@ -19,6 +19,9 @@ function loadQuiz() {
 		}
 		$('#quizDetails').focusout(saveQuizDetails);
 		$('#newQuestion').click(newQuestion);
+		$('#viewQuiz').click(function() {
+			window.location = "./doQuiz.php?id=" + $('#id').val();
+		});
 	}, 'json');
 }
 
@@ -64,7 +67,7 @@ function addQuestion(question) {
 	$('<input />', {
 		type: 'button',
 		name: 'delete',
-		value: 'Delete Question',
+		value: 'Delete',
 	}).click(deleteQuestion).appendTo(div);
 	div.appendTo('#questions');
 }
