@@ -102,6 +102,10 @@ body {
 	margin-left: 20px;
 }
 
+.question {
+	margin: 15px 0;
+}
+
 #clearfix {
 	clear:both;
 }
