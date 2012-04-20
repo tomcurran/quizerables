@@ -28,7 +28,7 @@ function addQuestion(question) {
 			addAnswer(div, answer);
 		});
 	} else {
-		div.html('No answers');
+		div.append('No answers');
 	}
 }
 
