@@ -8,7 +8,7 @@
 				<h3>My Quizzes</h3>
 				<form id="quizHeaderForm">
 					<input id="createTitle" type="text" name="title" />
-					<input type="button" value="Create" id="create" />
+					<a href="javascript:void(0);" id="createQuiz"><img src="images/plus.png" alt="Create Quiz" title="Create Quiz" /></a>
 				</form>
 			</div>
 			<div id="quizs">
@@ -16,7 +16,7 @@
 			</div>
 		</div>
 		<div id="userProfile">
-			<h3>My Profile</h3>
+			<h3>My Profile <a href="user.php" style="float:right;"><img src="images/settings.png" alt="User Settings" title="User Settings" /></a></h3>
 			<table>
 				<tr>
 					<td>Username</td>
@@ -27,7 +27,6 @@
 					<td>{{ user.email }}</td>
 				</tr>
 			</table>
-			<input type="button" value="Edit Profile" id="profile" onclick="window.location.href='user.php'" />
 		</div>
 		<div id="statistics">
 			<h3>My Statistics</h3>
