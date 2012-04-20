@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="11.3">
+<diagram program="umlet" version="11.4">
   <zoom_level>10</zoom_level>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>700</x>
-      <y>450</y>
+      <x>570</x>
+      <y>440</y>
       <w>210</w>
       <h>130</h>
     </coordinates>
@@ -23,9 +23,9 @@ question_required : BOOL
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>370</x>
-      <y>230</y>
-      <w>210</w>
+      <x>220</x>
+      <y>220</y>
+      <w>230</w>
       <h>130</h>
     </coordinates>
     <panel_attributes>users
@@ -33,7 +33,7 @@ question_required : BOOL
 user_id : INT
 user_name : VARCHAR2(255)
 user_email : VARCHAR2(255)
-user_password : VARCHAR(255)
+user_password : VARCHAR(128)
 
 </panel_attributes>
     <additional_attributes/>
@@ -41,8 +41,8 @@ user_password : VARCHAR(255)
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>700</x>
-      <y>230</y>
+      <x>570</x>
+      <y>220</y>
       <w>210</w>
       <h>150</h>
     </coordinates>
@@ -63,9 +63,9 @@ quiz_updated : TIMESTAMP
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>370</x>
-      <y>450</y>
-      <w>210</w>
+      <x>220</x>
+      <y>440</y>
+      <w>230</w>
       <h>130</h>
     </coordinates>
     <panel_attributes>answers
@@ -80,8 +80,8 @@ answer_time : TIMESTAMP
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>550</x>
-      <y>260</y>
+      <x>420</x>
+      <y>250</y>
       <w>170</w>
       <h>50</h>
     </coordinates>
@@ -91,8 +91,8 @@ answer_time : TIMESTAMP
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>780</x>
-      <y>350</y>
+      <x>650</x>
+      <y>340</y>
       <w>50</w>
       <h>120</h>
     </coordinates>
@@ -102,8 +102,8 @@ answer_time : TIMESTAMP
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>550</x>
-      <y>490</y>
+      <x>420</x>
+      <y>480</y>
       <w>170</w>
       <h>50</h>
     </coordinates>
