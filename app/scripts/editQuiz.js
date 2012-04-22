@@ -9,6 +9,7 @@ function loadQuiz() {
 		$('#id').val(json.id);
 		$('#title').val(json.title);
 		$('#description').val(json.description);
+		$('#theme_id').val(json.theme_id);
 		if (json.questions) {
 			$('#questions').html('');
 			$.each(json.questions, function(i, question) {
@@ -31,6 +32,7 @@ function saveQuizDetails() {
 		id: $('#id').val(),
 		title: $('#title').val(),
 		description: $('#description').val(),
+		theme_id: $('#theme_id').val(),
 		csrf: $('#csrf').val()
 	}, 'json');
 }

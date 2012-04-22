@@ -39,6 +39,7 @@ class EditQuizController extends QuizerablesController {
 			case 'saveQuiz':
 				$quiz->title = $_REQUEST['title'];
 				$quiz->description = $_REQUEST['description'];
+				$quiz->theme_id = $_REQUEST['theme_id'];
 				$this->saveQuiz($quiz);
 				break;
 			case 'saveQuestion':
