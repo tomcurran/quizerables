@@ -2,13 +2,14 @@
 
 class RegisterController extends QuizerablesController {
 
-	const ERR_USER_EMPTY  = 'Please provide a username';
-	const ERR_USER_FORMAT = 'Username can only contain letters, numbers and underscores';
-	const ERR_EMAIL_EMPTY  = 'Please provide a email address';
-	const ERR_EMAIL_FORMAT = 'Email not in valid format';
-	const ERR_PASS_EMPTY  = 'Please provide a password';
-	const ERR_LOGIN_FAIL  = 'The username and password combination failed to authenticate';
-	const VALID_USERNAME  = 'A-Za-z0-9_';
+	const ERR_USER_EMPTY    = 'Please provide a username';
+	const ERR_USER_FORMAT   = 'Username can only contain letters, numbers and underscores';
+	const ERR_EMAIL_EMPTY   = 'Please provide a email address';
+	const ERR_EMAIL_FORMAT  = 'Email not in valid format';
+	const ERR_PASS_EMPTY    = 'Please provide a password';
+	const ERR_LOGIN_FAIL    = 'The username and password combination failed to authenticate';
+	const ERR_REGISTER_FAIL = 'Registration failed. Please choose a different username.';
+	const VALID_USERNAME    = 'A-Za-z0-9_';
 
 	public function main() {
 		if ($this->isLoggedIn()) {
